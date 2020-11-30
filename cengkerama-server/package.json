@@ -1,0 +1,8 @@
+{
+  "name": "cengkerama-server",
+  "version": "0.0.1",
+  "description": "server for cengkerama",
+  "main": "index.js",
+  "author": "taufiq",
+  "license": "MIT"
+}
