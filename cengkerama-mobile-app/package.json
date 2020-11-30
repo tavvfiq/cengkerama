@@ -7,19 +7,25 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "env:init":"node scripts/init-environment.js",
+    "env:dev": "node scripts/set-environment.js development",
+    "env:staging":"node scripts/set-environment.js staging",
+    "env:prod":"node scripts/set-environment.js production"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^10.1.0",
     "@react-navigation/native": "^5.8.10",
     "@shopify/restyle": "^1.3.1",
+    "lodash": "^4.17.20",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-gesture-handler": "^1.9.0",
-    "react-native-reanimated": "^1.13.2",
+    "react-native-reanimated": "^2.0.0-alpha.9.2",
     "react-native-safe-area-context": "^3.1.9",
-    "react-native-screens": "^2.15.0"
+    "react-native-screens": "^2.15.0",
+    "react-native-svg": "^12.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

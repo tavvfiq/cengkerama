@@ -61,3 +61,9 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# environment
+.env.development.json
+.env.staging.json
+.env.production.json
+.env.json
