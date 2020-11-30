@@ -47,4 +47,15 @@ export const INIT_NOTIFICATION_SERVICE = () => {
      */
     requestPermissions: true,
   });
+  PushNotification.createChannel(
+    {
+      channelId: 'cengkerama', // (required)
+      channelName: 'cengkerama-notification', // (required)
+      channelDescription: 'Cengkerama Mobile App Notification', // (optional) default: undefined.
+      soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
+      importance: 4, // (optional) default: 4. Int value of the Android notification importance
+      vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
+    },
+    () => {}, // when channel created
+  );
 };
