@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from '../../components/common';
+import {ChatCard} from '../../components/Chat';
 import Layout from '../../layout';
 import Header from '../../components/MainHeader';
 import ScrollBar from '../../components/ScrollBar';
@@ -11,6 +11,7 @@ const Main = (props: Props) => {
     <Layout>
       <Header />
       <ScrollBar />
+      <ChatCard />
     </Layout>
   );
 };

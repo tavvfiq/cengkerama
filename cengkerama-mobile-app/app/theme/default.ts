@@ -1,8 +1,13 @@
 import {createTheme} from '@shopify/restyle';
-import {fonts} from '../constant';
+import {fonts, colors as palette} from '../constant';
 
 const theme = createTheme({
   colors: {
+    chatBgMain:palette.gray,
+    chatBgSecondary:palette.bluePrimary,
+
+    chatListCardBg: palette.none,
+    
     bluePrimary: '#2675EC',
     none: 'rgba(0,0,0,0)',
     redPrimary: '#FF0000',
@@ -40,19 +45,19 @@ const theme = createTheme({
       color: 'bluePrimary',
     },
     contactName: {
-      fontSize: 23,
+      fontSize: 20,
       lineHeight: 28,
       fontFamily: fonts.GilroyBold,
       color: 'fontBlack',
     },
     lastChatUnread: {
-      fontSize: 16,
+      fontSize: 13,
       lineHeight: 19,
       fontFamily: fonts.GilroyMedium,
       color: 'bluePrimary',
     },
     lastChat: {
-      fontSize: 16,
+      fontSize: 13,
       lineHeight: 19,
       fontFamily: fonts.GilroyMedium,
       color: 'darkGray',
@@ -71,7 +76,7 @@ const theme = createTheme({
     },
     scrollSelectorActive: {
       fontSize: 18,
-      lineHeight: 36,
+      lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
       color: 'white',
       textAlign: 'center',
@@ -79,7 +84,7 @@ const theme = createTheme({
     },
     scrollSelector: {
       fontSize: 18,
-      lineHeight: 36,
+      lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
       color: 'fontBlack',
       textAlign: 'center',
@@ -98,10 +103,18 @@ const theme = createTheme({
       color: 'fontBlack',
     },
     profileSubmenu2: {
-      fontSize: 17,
-      lineHeight: 21,
+      fontSize: 14,
+      lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
       color: 'darkGray',
+      textAlignVertical: 'center',
+    },
+    timestamp: {
+      fontSize: 14,
+      lineHeight: 24,
+      fontFamily: fonts.GilroySemiBold,
+      color: 'darkGray',
+      textAlignVertical: 'center',
     },
   },
   borderRadii: {

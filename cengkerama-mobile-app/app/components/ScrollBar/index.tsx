@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
+import {View} from '../common';
 import Bar from './Bar';
 
 const bars = [
@@ -17,25 +18,26 @@ const ScrollBar = (props: Props) => {
     setIndex(index);
   };
   return (
-    <ScrollView
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{
-        paddingHorizontal: 28,
-        paddingVertical: 12,
-        height: 43,
-        alignItems:"center",
-      }}>
-      {bars.map((bar, index) => {
-        return (
-          <Bar
-            key={index}
-            onPress={handleOnPress}
-            {...{label: bar.label, currentIndex, index}}
-          />
-        );
-      })}
-    </ScrollView>
+    <View height={43}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 28,
+          paddingVertical: 12,
+          alignItems: 'center',
+        }}>
+        {bars.map((bar, index) => {
+          return (
+            <Bar
+              key={index}
+              onPress={handleOnPress}
+              {...{label: bar.label, currentIndex, index}}
+            />
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 };
 

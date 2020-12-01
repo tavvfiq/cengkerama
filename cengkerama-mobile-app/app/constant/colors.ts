@@ -1,4 +1,5 @@
 export default {
+  none: 'rgba(0,0,0,0)',
   bluePrimary: '#2675EC',
 
   redPrimary: '#FF0000',
