@@ -1,13 +1,25 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {View, Text} from './components/common';
+import {ThemeProvider} from '@shopify/restyle';
+import theme from './theme/default';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Main from './screens/Main';
+
+const StackNavigator = createStackNavigator();
 
 interface Props {}
 
 const App = (props: Props) => {
   return (
-    <View>
-      <Text>Test</Text>
-    </View>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <StackNavigator.Navigator headerMode="none">
+          <StackNavigator.Screen name="Main" component={Main} />
+        </StackNavigator.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 
