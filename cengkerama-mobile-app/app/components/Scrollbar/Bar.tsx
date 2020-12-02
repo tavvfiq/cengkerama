@@ -15,7 +15,7 @@ const Bar = ({index, currentIndex, label, onPress}: BarProps) => {
   const isActive = index === currentIndex;
   return (
     <TouchableOpacity
-      backgroundColor={isActive ? 'bluePrimary' : 'white'}
+      backgroundColor="none"
       width={BAR_WIDTH}
       height={BAR_HEIGHT}
       onPress={() => {
