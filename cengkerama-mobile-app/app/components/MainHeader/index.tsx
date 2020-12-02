@@ -5,9 +5,13 @@ import Plus from './Icons/Plus';
 import Search from './Icons/Search';
 import More from './Icons/More';
 
-interface Props {}
+interface Props {
+  moreOnPress: () => void;
+  addOnPress?: () => void;
+  searchOnPress?: () => void;
+}
 
-const MainHeader = (props: Props) => {
+const MainHeader = ({moreOnPress, addOnPress, searchOnPress}: Props) => {
   return (
     <View
       backgroundColor="white"
@@ -21,15 +25,20 @@ const MainHeader = (props: Props) => {
         flexDirection="row"
         justifyContent="flex-end"
         backgroundColor="white"
-        paddingRight="l"
-        >
-        <BorderlessButton style={{alignSelf: 'center', overflow:'visible'}}>
+        paddingRight="l">
+        <BorderlessButton
+          style={{alignSelf: 'center', overflow: 'visible'}}
+          onPress={addOnPress}>
           <Plus />
         </BorderlessButton>
-        <BorderlessButton style={{alignSelf: 'center', marginLeft: 14}}>
+        <BorderlessButton
+          style={{alignSelf: 'center', marginLeft: 14}}
+          onPress={searchOnPress}>
           <Search />
         </BorderlessButton>
-        <BorderlessButton style={{alignSelf: 'center', marginLeft: 14}}>
+        <BorderlessButton
+          style={{alignSelf: 'center', marginLeft: 14}}
+          onPress={moreOnPress}>
           <More />
         </BorderlessButton>
       </View>

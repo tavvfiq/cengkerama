@@ -11,5 +11,3 @@ const Layout: React.FunctionComponent = (props) => {
 };
 
 export default Layout;
-
-const styles = StyleSheet.create({});

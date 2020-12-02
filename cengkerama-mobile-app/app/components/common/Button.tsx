@@ -9,11 +9,7 @@ import {
   LayoutProps,
   BackgroundColorProps,
 } from '@shopify/restyle';
-import {
-  RectButton,
-  BorderlessButton as _BorderlessButton,
-} from 'react-native-gesture-handler';
-import {TouchableOpacity as _TouchableOpacity} from 'react-native';
+import {Pressable, TouchableHighlight, TouchableOpacity as _TouchableOpacity} from 'react-native';
 import View from './View';
 import {Theme} from '../../theme/default';
 
@@ -29,23 +25,23 @@ type Props = LayoutProps<Theme> &
 export const Button = ({onPress, children, ...rest}: Props) => {
   const props = useRestyle(restyleFunctions, rest);
   return (
-    <RectButton
+    <TouchableHighlight
       onPress={onPress}
       style={{
         overflow: 'hidden',
         backgroundColor: rest.backgroundColor?.toString(),
       }}>
       <View {...props}>{children}</View>
-    </RectButton>
+    </TouchableHighlight>
   );
 };
 
 export const BorderlessButton = ({onPress, children, ...rest}: Props) => {
   const props = useRestyle(restyleFunctions, rest);
   return (
-    <_BorderlessButton onPress={onPress}>
+    <Pressable onPress={onPress}>
       <View {...props}>{children}</View>
-    </_BorderlessButton>
+    </Pressable>
   );
 };
 

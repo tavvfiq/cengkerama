@@ -1,13 +1,12 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {View, Text} from './components/common';
 import {ThemeProvider} from '@shopify/restyle';
 import theme from './theme/default';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Main from './screens/Main';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import AppStack from './navigation/AppStack';
 
-const StackNavigator = createStackNavigator();
+const StackNavigator = createNativeStackNavigator();
 
 interface Props {}
 
@@ -15,8 +14,9 @@ const App = (props: Props) => {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <StackNavigator.Navigator headerMode="none">
-          <StackNavigator.Screen name="Main" component={Main} />
+        <StackNavigator.Navigator screenOptions={{headerShown: false}}>
+          {/* {AppStack()} */}
+          <StackNavigator.Screen name="AppStack" component={AppStack} />
         </StackNavigator.Navigator>
       </NavigationContainer>
     </ThemeProvider>

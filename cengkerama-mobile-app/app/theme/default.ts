@@ -3,11 +3,11 @@ import {fonts, colors as palette} from '../constant';
 
 const theme = createTheme({
   colors: {
-    chatBgMain:palette.gray,
-    chatBgSecondary:palette.bluePrimary,
+    chatBgMain: palette.gray,
+    chatBgSecondary: palette.bluePrimary,
 
     chatListCardBg: palette.none,
-    
+
     bluePrimary: '#2675EC',
     none: 'rgba(0,0,0,0)',
     redPrimary: '#FF0000',
@@ -39,13 +39,13 @@ const theme = createTheme({
       color: 'bluePrimary',
     },
     headerProfile: {
-      fontSize: 25,
+      fontSize: 20,
       lineHeight: 31,
       fontFamily: fonts.GilroyBold,
       color: 'bluePrimary',
     },
     contactName: {
-      fontSize: 20,
+      fontSize: 18,
       lineHeight: 28,
       fontFamily: fonts.GilroyBold,
       color: 'fontBlack',
@@ -62,14 +62,8 @@ const theme = createTheme({
       fontFamily: fonts.GilroyMedium,
       color: 'darkGray',
     },
-    myChat: {
-      fontSize: 16,
-      lineHeight: 19,
-      fontFamily: fonts.GilroyMedium,
-      color: 'fontBlack',
-    },
     sidebarMenu: {
-      fontSize: 19,
+      fontSize: 17,
       lineHeight: 23,
       fontFamily: fonts.GilroyBold,
       color: 'bluePrimary',
@@ -112,9 +106,28 @@ const theme = createTheme({
     timestamp: {
       fontSize: 14,
       lineHeight: 24,
-      fontFamily: fonts.GilroySemiBold,
+      fontFamily: fonts.GilroyMedium,
       color: 'darkGray',
       textAlignVertical: 'center',
+    },
+    timestampChatroom: {
+      fontSize: 13,
+      lineHeight: 24,
+      fontFamily: fonts.GilroySemiBold,
+      color: 'bluePrimary',
+      textAlignVertical: 'center',
+    },
+    myChat: {
+      fontSize: 13,
+      lineHeight: 24,
+      fontFamily: fonts.GilroyMedium,
+      color: 'fontBlack',
+    },
+    otherChat: {
+      fontSize: 13,
+      lineHeight: 24,
+      fontFamily: fonts.GilroyMedium,
+      color: 'white',
     },
   },
   borderRadii: {
