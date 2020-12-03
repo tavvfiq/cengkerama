@@ -67,3 +67,5 @@ buck-out/
 .env.staging.json
 .env.production.json
 .env.json
+
+./android/app/google-services.json
