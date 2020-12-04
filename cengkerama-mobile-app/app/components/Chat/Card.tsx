@@ -5,14 +5,12 @@ import Trash from './Icons/Trash';
 import Bookmark from './Icons/Bookmark';
 import Checkmark from './Icons/Checkmark';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {RoomProps} from '../../interface';
+import moment from 'moment';
+
+const defaultImage = require('../../assets/default.png');
 
 const {width} = Dimensions.get('window');
-
-type RightActionProps = {};
-
-interface Props {
-  isRead?: boolean;
-}
 
 const SWIPEABLE_WIDTH = 0.61 * width;
 
@@ -68,7 +66,7 @@ const renderRightActions = (progress: Animated.AnimatedInterpolation) => {
   );
 };
 
-const Card = ({isRead}: Props) => {
+const Card = ({recentMessage, members}: RoomProps) => {
   return (
     <Swipeable
       friction={2}
@@ -89,7 +87,7 @@ const Card = ({isRead}: Props) => {
             borderRadius: (width * 0.14) / 4,
             alignSelf: 'center',
           }}
-          source={require('../../assets/example.jpg')}
+          source={defaultImage}
         />
         <View
           flex={1}
@@ -103,17 +101,23 @@ const Card = ({isRead}: Props) => {
             <Text variant="contactName" numberOfLines={1} ellipsizeMode="tail">
               Taufiq Widi
             </Text>
-            <Text variant="timestamp">15.20</Text>
+            <Text variant="timestamp">
+              {moment(recentMessage?.sentAt).format('hh.mm')}
+            </Text>
           </View>
           <View
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center">
             <Text
-              variant={isRead ? 'lastChat' : 'lastChatUnread'}
+              variant={
+                recentMessage?.readBy.length !== 0
+                  ? 'lastChat'
+                  : 'lastChatUnread'
+              }
               numberOfLines={1}
               ellipsizeMode="tail">
-              Halo...
+              {recentMessage?.messageText}
             </Text>
           </View>
         </View>

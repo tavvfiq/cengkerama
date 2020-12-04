@@ -20,7 +20,7 @@ type AnimatedViewProps = LayoutProps<Theme> &
   BorderProps<Theme> &
   BackgroundColorProps<Theme> & {
     animatedStyle?: StyleProp<ViewStyle>;
-    viewStyle?: StyleProp<ViewProps>;
+    viewStyle?: StyleProp<ViewStyle>;
     children?: React.ReactNode;
   };
 

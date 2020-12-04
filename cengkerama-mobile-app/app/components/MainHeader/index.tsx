@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View} from '../common';
 import {BorderlessButton} from 'react-native-gesture-handler';
 import Plus from './Icons/Plus';
 import Search from './Icons/Search';
 import More from './Icons/More';
+import Bar from './Bar';
 
 interface Props {
   moreOnPress: () => void;
@@ -12,23 +13,28 @@ interface Props {
 }
 
 const MainHeader = ({moreOnPress, addOnPress, searchOnPress}: Props) => {
+  const [addOpened, openAdd] = useState<boolean>(false);
+
   return (
     <View
       backgroundColor="white"
       flexDirection="row"
-      justifyContent="space-between">
-      <Text variant="header" paddingVertical="s" paddingLeft="l">
+      justifyContent="space-between"
+      paddingVertical="m">
+      <Text variant="header" paddingLeft="l">
         Cengkerama
       </Text>
+      <Bar isOpened={addOpened} />
       <View
         flex={1}
         flexDirection="row"
         justifyContent="flex-end"
-        backgroundColor="white"
         paddingRight="l">
         <BorderlessButton
           style={{alignSelf: 'center', overflow: 'visible'}}
-          onPress={addOnPress}>
+          onPress={() => {
+            openAdd((prevState) => !prevState);
+          }}>
           <Plus />
         </BorderlessButton>
         <BorderlessButton

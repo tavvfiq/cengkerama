@@ -35,7 +35,7 @@ const ScrollBar = (props: Props) => {
     };
   });
   return (
-    <View height={43}>
+    <View height={43} marginBottom="m">
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}

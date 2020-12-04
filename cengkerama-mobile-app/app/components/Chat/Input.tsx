@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions, TextInput} from 'react-native';
 import {Text, TouchableOpacity, View} from '../common';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -6,15 +6,25 @@ import {colors, fonts} from '../../constant';
 
 const {width} = Dimensions.get('window');
 
-interface Props {}
+interface Props {
+  onSend?: (messageText: string, isImage: boolean) => void;
+}
 
-const Input = (props: Props) => {
+const Input = ({onSend}: Props) => {
+  const [messageText, setMessage] = useState<string>('');
+  const [image, setImage] = useState<string>('');
+  // send handler
+  const send = () => {
+    if (onSend) onSend(messageText, false);
+    setMessage('');
+  };
   return (
     <View
       backgroundColor="white"
       padding="m"
       width={width}
       position="absolute"
+      elevation={3}
       bottom={0}>
       <View
         width="100%"
@@ -36,8 +46,10 @@ const Input = (props: Props) => {
             style={{flex: 1, fontFamily: fonts.GilroyMedium}}
             multiline={true}
             placeholder="type your message"
+            value={messageText}
+            onChangeText={(text) => setMessage(text)}
           />
-          <TouchableOpacity alignSelf="center">
+          <TouchableOpacity alignSelf="center" onPress={send}>
             <Icon name="send" color={colors.bluePrimary} size={24} />
           </TouchableOpacity>
         </View>

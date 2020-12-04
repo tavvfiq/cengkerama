@@ -65,7 +65,7 @@ const theme = createTheme({
     sidebarMenu: {
       fontSize: 17,
       lineHeight: 23,
-      fontFamily: fonts.GilroyBold,
+      fontFamily: fonts.GilroySemiBold,
       color: 'bluePrimary',
     },
     scrollSelectorActive: {

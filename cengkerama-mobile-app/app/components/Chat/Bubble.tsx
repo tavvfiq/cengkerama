@@ -3,16 +3,13 @@ import {Dimensions, Image} from 'react-native';
 import {colors} from '../../constant';
 import {Text, View} from '../common';
 import moment from 'moment';
+import { MessageProps } from '../../interface';
 
 const {width} = Dimensions.get('window');
 
-interface Props {
-  message?: string;
-  picture?: string;
-  date?: string;
-}
+type Props = MessageProps;
 
-export const Bubble = ({message, picture, date}: Props) => {
+export const Bubble = ({messageText, isImage, sentAt}: Props) => {
   return (
     <View width="100%" flex={1}>
       <View
@@ -21,25 +18,26 @@ export const Bubble = ({message, picture, date}: Props) => {
         borderBottomRightRadius="l"
         borderBottomLeftRadius="s"
         padding="s"
+        alignSelf="flex-start"
         overflow="hidden"
         maxWidth={0.79 * width}
         backgroundColor="chatBgSecondary">
-        {picture ? (
+        {isImage ? (
           <Image
-            source={{uri: picture}}
+            source={{uri: messageText}}
             style={{width: '100%', height: '100%'}}
           />
         ) : (
-          <Text variant="otherChat">{message}</Text>
+          <Text variant="otherChat">{messageText}</Text>
         )}
       </View>
       <Text variant="timestampChatroom" style={{width: '100%'}}>
-        {moment(date).format('ddd, hh:mm')}
+        {moment(sentAt).format('ddd, hh:mm')}
       </Text>
     </View>
   );
 };
-export const MyBubble = ({message, picture, date}: Props) => {
+export const MyBubble = ({messageText, isImage, sentAt}: Props) => {
   return (
     <View width="100%" flex={1}>
       <View
@@ -52,19 +50,19 @@ export const MyBubble = ({message, picture, date}: Props) => {
         overflow="hidden"
         maxWidth={0.79 * width}
         backgroundColor="chatBgMain">
-        {picture ? (
+        {isImage ? (
           <Image
-            source={{uri: picture}}
+            source={{uri: messageText}}
             style={{width: '100%', height: '100%'}}
           />
         ) : (
-          <Text variant="myChat">{message}</Text>
+          <Text variant="myChat">{messageText}</Text>
         )}
       </View>
       <Text
         variant="timestampChatroom"
         style={{color: colors.fontBlack, width: '100%', textAlign: 'right'}}>
-        {moment(date).format('ddd, hh:mm')}
+        {moment(sentAt).format('ddd, hh:mm')}
       </Text>
     </View>
   );

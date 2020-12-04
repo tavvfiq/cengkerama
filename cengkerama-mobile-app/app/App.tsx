@@ -15,7 +15,6 @@ const App = (props: Props) => {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StackNavigator.Navigator screenOptions={{headerShown: false}}>
-          {/* {AppStack()} */}
           <StackNavigator.Screen name="AppStack" component={AppStack} />
         </StackNavigator.Navigator>
       </NavigationContainer>
@@ -24,5 +23,3 @@ const App = (props: Props) => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({});

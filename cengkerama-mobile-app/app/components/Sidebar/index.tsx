@@ -37,7 +37,7 @@ const SidebarMenu = [
     onPress: () => {},
   },
   {
-    label: 'Save Messages',
+    label: 'Saved Messages',
     icon: <Saved />,
     onPress: () => {},
   },
@@ -94,23 +94,24 @@ const Sidebar = ({isActive, backOnPress}: Props) => {
       paddingVertical="m"
       borderWidth={1}
       borderStyle="solid"
-      borderColor="gray"
-      paddingHorizontal="l">
+      borderColor="gray">
       <View
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center">
         <TouchableOpacity
+          paddingLeft="l"
           paddingRight="l"
           alignSelf="center"
           onPress={backOnPress}>
           <Back />
         </TouchableOpacity>
-        <TouchableOpacity alignSelf="center">
+        <TouchableOpacity alignSelf="center" paddingRight="l">
           <Setting />
         </TouchableOpacity>
       </View>
       <View
+        paddingHorizontal="l"
         marginTop="l"
         flexDirection="row"
         justifyContent="flex-start"
@@ -139,6 +140,7 @@ const Sidebar = ({isActive, backOnPress}: Props) => {
             flexDirection="row"
             justifyContent="flex-start"
             alignItems="center"
+            paddingHorizontal="l"
             marginTop="l">
             <View
               flex={1}

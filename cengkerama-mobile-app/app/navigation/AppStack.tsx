@@ -6,7 +6,6 @@ import Main from '../screens/Main';
 import Room from '../screens/Room';
 
 const StackNavigator = createStackNavigator();
-// const StackNavigator = createNativeStackNavigator();
 
 interface Props {}
 
