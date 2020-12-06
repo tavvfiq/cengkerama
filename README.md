@@ -12,4 +12,4 @@ Cengkerama is chatting app with realtime communication build with React Native.
 - Push notification (when someone chat you)
 
 ## Installation
-- for mobile app [here](https://github.com/tavvfiq/cengkerama/blob/master/cengkerama-mobile-app/README.md)
+- for mobile app [here](https://github.com/tavvfiq/cengkerama/tree/master/cengkerama-mobile-app)
