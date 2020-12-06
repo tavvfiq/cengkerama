@@ -1,6 +1,6 @@
 import React from 'react';
-import {Image, Dimensions} from 'react-native';
-import {Button, Text, TouchableOpacity, View} from '../common';
+import {Image, Dimensions, StyleSheet} from 'react-native';
+import {Text, TouchableOpacity, View} from '../common';
 import Back from './Icons/Back';
 import Menu from './Icons/Menu';
 
@@ -8,16 +8,24 @@ const {width} = Dimensions.get('window');
 
 interface Props {
   isOnline?: boolean;
+  backOnPress?: () => void;
 }
 
-const Header = ({isOnline}: Props) => {
+const Header = ({isOnline, backOnPress}: Props) => {
   return (
     <View
       paddingHorizontal="m"
       flexDirection="row"
       alignItems="center"
       paddingVertical="s">
-      <TouchableOpacity alignSelf='center' paddingRight='l'>
+      <TouchableOpacity
+        alignSelf="center"
+        paddingRight="l"
+        onPress={() => {
+          if (backOnPress) {
+            backOnPress();
+          }
+        }}>
         <Back />
       </TouchableOpacity>
       <View
@@ -27,12 +35,7 @@ const Header = ({isOnline}: Props) => {
         alignItems="center">
         <View flex={1} flexDirection="row" justifyContent="flex-start">
           <Image
-            style={{
-              width: width * 0.12,
-              height: width * 0.12,
-              borderRadius: (width * 0.12) / 4,
-              alignSelf: 'center',
-            }}
+            style={styles.imageStyle}
             source={require('../../assets/example.jpg')}
           />
           <TouchableOpacity
@@ -48,12 +51,21 @@ const Header = ({isOnline}: Props) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity alignSelf='center'>
+        <TouchableOpacity alignSelf="center">
           <Menu />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  imageStyle: {
+    width: width * 0.12,
+    height: width * 0.12,
+    borderRadius: (width * 0.12) / 4,
+    alignSelf: 'center',
+  },
+});
 
 export default Header;

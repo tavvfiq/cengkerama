@@ -1,12 +1,21 @@
-import React, {ReactElement} from 'react';
-import {Image, Dimensions, I18nManager, Animated, Alert} from 'react-native';
+import React, {ReactElement, useCallback} from 'react';
+import {
+  Image,
+  Dimensions,
+  I18nManager,
+  Animated,
+  StyleSheet,
+} from 'react-native';
 import {Text, View, Button} from '../common';
 import Trash from './Icons/Trash';
 import Bookmark from './Icons/Bookmark';
 import Checkmark from './Icons/Checkmark';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {RoomProps} from '../../interface';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 const defaultImage = require('../../assets/default.png');
 
@@ -29,16 +38,17 @@ const swipeButtons = [
   },
 ];
 
-const renderRightAction = (
-  icon: ReactElement,
-  x: number,
-  progress: Animated.AnimatedInterpolation,
-) => {
+type CardProps = RoomProps & {
+  onPress?: (payload: string) => void;
+};
+
+const renderRightAction = (icon: ReactElement, x: number) => {
   const pressHandler = () => {
     // this.close();
     // alert(text);
   };
   return (
+    // eslint-disable-next-line react-native/no-inline-styles
     <Animated.View key={x} style={{flex: 1, transform: [{translateX: 0}]}}>
       <Button
         backgroundColor="bluePrimary"
@@ -53,20 +63,42 @@ const renderRightAction = (
   );
 };
 
-const renderRightActions = (progress: Animated.AnimatedInterpolation) => {
+const renderRightActions = () => {
   return (
     <View
       width={SWIPEABLE_WIDTH}
       backgroundColor="bluePrimary"
       flexDirection={I18nManager.isRTL ? 'row-reverse' : 'row'}>
-      {swipeButtons.map((button, index) => {
-        return renderRightAction(button.icon, button.x, progress);
+      {swipeButtons.map((button) => {
+        return renderRightAction(button.icon, button.x);
       })}
     </View>
   );
 };
 
-const Card = ({recentMessage, members}: RoomProps) => {
+const checkTime = (time: string): string => {
+  const _default = dayjs(time).format('DD/MM/YYYY');
+  const _year = dayjs(time).year();
+  const _month = dayjs(time).month();
+  const _day = dayjs(time).day();
+  console.log(_year, _month, _day);
+  if (dayjs().subtract(_year, 'year').year() === 0) {
+    if (dayjs().subtract(_month, 'month').month() === 0) {
+      if (dayjs().subtract(_day, 'day').day() <= 1) {
+        return dayjs(time).fromNow();
+      }
+    }
+  }
+  return _default;
+};
+
+const Card = ({id, recentMessage, members, type, onPress}: CardProps) => {
+  const handleOnPress = useCallback(() => {
+    const payload = JSON.stringify({id, recentMessage, members});
+    if (onPress) {
+      onPress(payload);
+    }
+  }, [id]);
   return (
     <Swipeable
       friction={2}
@@ -77,18 +109,10 @@ const Card = ({recentMessage, members}: RoomProps) => {
         width={width}
         paddingHorizontal="l"
         height={width * 0.198}
-        onPress={() => {}}
+        onPress={handleOnPress}
         flexDirection="row"
         justifyContent="space-between">
-        <Image
-          style={{
-            width: width * 0.14,
-            height: width * 0.14,
-            borderRadius: (width * 0.14) / 4,
-            alignSelf: 'center',
-          }}
-          source={defaultImage}
-        />
+        <Image style={styles.imageStyle} source={defaultImage} />
         <View
           flex={1}
           marginLeft="s"
@@ -102,7 +126,7 @@ const Card = ({recentMessage, members}: RoomProps) => {
               Taufiq Widi
             </Text>
             <Text variant="timestamp">
-              {moment(recentMessage?.sentAt).format('hh.mm')}
+              {checkTime(recentMessage?.sentAt as string)}
             </Text>
           </View>
           <View
@@ -125,5 +149,14 @@ const Card = ({recentMessage, members}: RoomProps) => {
     </Swipeable>
   );
 };
+
+const styles = StyleSheet.create({
+  imageStyle: {
+    width: width * 0.14,
+    height: width * 0.14,
+    borderRadius: (width * 0.14) / 4,
+    alignSelf: 'center',
+  },
+});
 
 export default Card;

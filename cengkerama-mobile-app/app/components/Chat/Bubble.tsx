@@ -1,9 +1,9 @@
 import React from 'react';
-import {Dimensions, Image} from 'react-native';
+import {Dimensions, Image, StyleSheet} from 'react-native';
 import {colors} from '../../constant';
 import {Text, View} from '../common';
-import moment from 'moment';
-import { MessageProps } from '../../interface';
+import dayjs from 'dayjs';
+import {MessageProps} from '../../interface';
 
 const {width} = Dimensions.get('window');
 
@@ -23,16 +23,13 @@ export const Bubble = ({messageText, isImage, sentAt}: Props) => {
         maxWidth={0.79 * width}
         backgroundColor="chatBgSecondary">
         {isImage ? (
-          <Image
-            source={{uri: messageText}}
-            style={{width: '100%', height: '100%'}}
-          />
+          <Image source={{uri: messageText}} style={styles.avatar} />
         ) : (
           <Text variant="otherChat">{messageText}</Text>
         )}
       </View>
-      <Text variant="timestampChatroom" style={{width: '100%'}}>
-        {moment(sentAt).format('ddd, hh:mm')}
+      <Text variant="timestampChatroom" style={styles.bubble}>
+        {dayjs(sentAt).format('hh:mm a')}
       </Text>
     </View>
   );
@@ -51,19 +48,27 @@ export const MyBubble = ({messageText, isImage, sentAt}: Props) => {
         maxWidth={0.79 * width}
         backgroundColor="chatBgMain">
         {isImage ? (
-          <Image
-            source={{uri: messageText}}
-            style={{width: '100%', height: '100%'}}
-          />
+          <Image source={{uri: messageText}} style={styles.avatar} />
         ) : (
           <Text variant="myChat">{messageText}</Text>
         )}
       </View>
-      <Text
-        variant="timestampChatroom"
-        style={{color: colors.fontBlack, width: '100%', textAlign: 'right'}}>
-        {moment(sentAt).format('ddd, hh:mm')}
+      <Text variant="timestampChatroom" style={styles.mybubble}>
+        {dayjs(sentAt).format('hh:mm a')}
       </Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  avatar: {
+    width: '100%',
+    height: '100%',
+  },
+  mybubble: {
+    color: colors.fontBlack,
+    width: '100%',
+    textAlign: 'right',
+  },
+  bubble: {width: '100%'},
+});

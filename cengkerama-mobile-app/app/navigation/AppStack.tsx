@@ -1,7 +1,5 @@
 import React from 'react';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
-import { createStackNavigator } from '@react-navigation/stack';
-import {} from 'react-native'
+import {createStackNavigator} from '@react-navigation/stack';
 import Main from '../screens/Main';
 import Room from '../screens/Room';
 

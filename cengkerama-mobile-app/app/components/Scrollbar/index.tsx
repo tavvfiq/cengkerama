@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
-import Animated, {
+import {ScrollView, StyleSheet} from 'react-native';
+import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {colors} from '../../constant';
 import {View} from '../common';
 import AnimatedView from '../common/AnimatedView';
 import Bar from './Bar';
@@ -31,6 +30,11 @@ const ScrollBar = (props: Props) => {
   };
   const style = useAnimatedStyle(() => {
     return {
+      position: 'absolute',
+      width: BAR_WIDTH,
+      height: BAR_HEIGHT,
+      marginLeft: 28,
+      overflow: 'hidden',
       transform: [{translateX: withTiming(xPosition.value)}],
     };
   });
@@ -39,25 +43,12 @@ const ScrollBar = (props: Props) => {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: 28,
-          paddingVertical: 12,
-          alignItems: 'center',
-        }}>
+        contentContainerStyle={styles.scrollviewContainer}>
         <AnimatedView
-          animatedStyle={[
-            {
-              position: 'absolute',
-              width: BAR_WIDTH,
-              height: BAR_HEIGHT,
-              marginLeft: 28,
-              overflow: 'hidden',
-            },
-            style,
-          ]}
+          animatedStyle={style}
           width="100%"
           height="100%"
-          borderRadius='m'
+          borderRadius="m"
           backgroundColor="bluePrimary"
         />
         {bars.map((bar, index) => {
@@ -73,5 +64,13 @@ const ScrollBar = (props: Props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollviewContainer: {
+    paddingHorizontal: 28,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+});
 
 export default ScrollBar;

@@ -29,3 +29,8 @@ export type UserProps = {
   rooms: Array<string>;
   contacts: Array<string>;
 };
+
+export type AppStackParams = {
+  Main: undefined;
+  Room: {payload: string};
+};
