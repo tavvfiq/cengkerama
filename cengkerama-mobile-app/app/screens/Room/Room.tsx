@@ -1,47 +1,52 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, FlatList, ListRenderItem} from 'react-native';
+import {Dimensions, FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {Bubble, Header, MyBubble, Input} from '../../components/Chat';
-import {MessageProps, RoomProps, UserProps} from '../../interface';
+import {AppStackParams, MessageProps, UserProps} from '../../interface';
 import Layout from '../../layout';
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
 import {Text, View} from '../../components/common';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {colors} from '../../constant';
+import useMessage from '../../hooks/useMessage';
+import {FirestoreService} from '../../services';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
+
+type Props = {
+  navigation: StackNavigationProp<AppStackParams, 'Room'>;
+  route: RouteProp<AppStackParams, 'Room'>;
+};
 
 const myId = '12345';
 const roomId = 'elvROwWbVq6I0IbtYc1L';
 
-const Room = ({id, members, type, recentMessage, ...rest}: RoomProps) => {
-  const [messages, retrieveMessage] = useState<MessageProps[]>([]);
+let date: string[] = [];
+
+const Room = ({navigation, route}: Props) => {
+  const messages = useMessage(roomId);
   const [user, setUser] = useState<UserProps>();
-  const [messageDB] = useState<FirebaseFirestoreTypes.CollectionReference>(
-    firestore().collection('message'),
-  );
-  const [roomDB] = useState<FirebaseFirestoreTypes.CollectionReference>(
-    firestore().collection('room'),
-  );
   let FLRef = useRef<FlatList<MessageProps>>(null);
+
+  const {id, recentMessage} = JSON.parse(route.params.payload);
 
   // fetch user detail for header
   useEffect(() => {
     // TODO: fetch user detail and store it to user
   }, []);
 
-  // subscribe to message collection snapshot
   useEffect(() => {
-    // TODO: fetch messages based on roomId from firestore and store them to messages
-    const readBy: string[] = [];
+    if (FLRef.current) {
+      FLRef.current.scrollToEnd({animated: true});
+    }
+    const readBy: string[] = recentMessage.readBy;
     const isRead = readBy.indexOf(myId);
     if (isRead < 0) {
       readBy.push(myId);
       // IIFE for updating recent readBy
       (async () => {
         try {
-          await roomDB.doc(roomId).update({
+          await FirestoreService.RoomCollection.doc(id).update({
             'recentMessage.readBy': readBy,
           });
         } catch (error) {
@@ -49,23 +54,6 @@ const Room = ({id, members, type, recentMessage, ...rest}: RoomProps) => {
         }
       })();
     }
-    const subscriber = messageDB
-      .doc(roomId)
-      .collection('messages')
-      .orderBy('sentAt', 'asc')
-      .onSnapshot(
-        (result) => {
-          if (result) {
-            const messages = result.docs.map((doc) => {
-              return doc.data();
-            });
-            retrieveMessage(() => messages);
-          }
-        },
-        (error) => console.log(error),
-      );
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
   }, []);
 
   // send message function
@@ -83,8 +71,10 @@ const Room = ({id, members, type, recentMessage, ...rest}: RoomProps) => {
         sentAt: new Date().toISOString(),
         sentBy: myId,
       };
-      await messageDB.doc(roomId).collection('messages').add(message);
-      await roomDB.doc(roomId).update({
+      await FirestoreService.MessageCollection.doc(id)
+        .collection('messages')
+        .add(message);
+      await FirestoreService.RoomCollection.doc(id).update({
         recentMessage: newRecentMessage,
       });
     } catch (error) {
@@ -92,28 +82,23 @@ const Room = ({id, members, type, recentMessage, ...rest}: RoomProps) => {
     }
   };
 
-  let date: Array<string> = [];
-
   useEffect(() => {
-    if (date.length) date = [];
+    if (date.length) {
+      date = [];
+    }
   }, [messages]);
 
   // render flatlist item
   const renderItems: ListRenderItem<MessageProps> = ({item, index}) => {
-    const isSameDate = date.indexOf(moment(item.sentAt).format('LL'));
-    if (isSameDate < 0) date.push(moment(item.sentAt as string).format('LL'));
+    const isSameDate = date.indexOf(dayjs(item.sentAt).format('DDMMYYYY'));
+    if (isSameDate < 0) {
+      date.push(dayjs(item.sentAt as string).format('DDMMYYYY'));
+    }
     return (
       <View key={index}>
         {isSameDate < 0 && (
-          <Text
-            variant="timestamp"
-            marginBottom="s"
-            style={{
-              color: colors.fontBlack,
-              width: '100%',
-              textAlign: 'center',
-            }}>
-            {moment(item.sentAt as string).format('DD MMMM YYYY')}
+          <Text variant="timestamp" marginBottom="s" style={styles.dateStyle}>
+            {dayjs(item.sentAt as string).format('ddd, D MMMM YYYY')}
           </Text>
         )}
         {item.sentBy === myId ? (
@@ -127,27 +112,37 @@ const Room = ({id, members, type, recentMessage, ...rest}: RoomProps) => {
 
   return (
     <Layout>
-      <Header />
+      <Header backOnPress={() => navigation.goBack()} />
       <FlatList
-        contentContainerStyle={{
-          paddingTop: 14,
-          paddingHorizontal: 28,
-          paddingBottom: 0.31 * width,
-        }}
+        contentContainerStyle={styles.flatlistContainer}
         data={messages}
         renderItem={renderItems}
         keyExtractor={(_, index) => String(index)}
         ref={FLRef}
         onContentSizeChange={() => {
-          if (FLRef.current)
+          if (FLRef.current) {
             FLRef.current.scrollToEnd({
               animated: true,
             });
+          }
         }}
       />
       <Input onSend={sendMessage} />
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  flatlistContainer: {
+    paddingTop: 14,
+    paddingHorizontal: 28,
+    paddingBottom: 0.31 * width,
+  },
+  dateStyle: {
+    color: colors.fontBlack,
+    // width: '100%',
+    textAlign: 'center',
+  },
+});
 
 export default Room;
