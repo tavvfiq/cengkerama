@@ -1,10 +1,11 @@
-import PushNotification from 'react-native-push-notification';
+/* eslint-disable max-len */
+import PushNotification from "react-native-push-notification";
 
 export const INIT_NOTIFICATION_SERVICE = () => {
   PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function (token) {
-      console.log('TOKEN:', token);
+      console.log("TOKEN:", token);
     },
 
     // (required) Called when a remote is received or opened, or local notification is opened
@@ -17,7 +18,7 @@ export const INIT_NOTIFICATION_SERVICE = () => {
 
     // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
     onAction: function (notification) {
-      console.log('NOTIFICATION:', notification);
+      console.log("NOTIFICATION:", notification);
 
       // process the action
     },
@@ -49,10 +50,10 @@ export const INIT_NOTIFICATION_SERVICE = () => {
   });
   PushNotification.createChannel(
     {
-      channelId: 'cengkerama', // (required)
-      channelName: 'cengkerama-notification', // (required)
-      channelDescription: 'Cengkerama Mobile App Notification', // (optional) default: undefined.
-      soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
+      channelId: "cengkerama", // (required)
+      channelName: "cengkerama-notification", // (required)
+      channelDescription: "Cengkerama Mobile App Notification", // (optional) default: undefined.
+      soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
       importance: 4, // (optional) default: 4. Int value of the Android notification importance
       vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
     },

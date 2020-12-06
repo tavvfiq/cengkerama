@@ -13,7 +13,7 @@ const useMessage = (roomId: string) => {
         (result) => {
           if (result) {
             const messages = result.docs.map((doc) => {
-              return doc.data();
+              return {...doc.data(), id: doc.id};
             });
             setMessage(() => messages);
           }

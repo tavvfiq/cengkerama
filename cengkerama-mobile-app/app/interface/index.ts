@@ -1,9 +1,9 @@
 export type RoomProps = {
   id: string;
-  createdAt: string;
+  createdAt?: string;
   createdBy?: string;
   members: Array<string>;
-  modifiedAt: string;
+  modifiedAt?: string;
   name?: string;
   recentMessage?: {
     messageText: string;
@@ -11,10 +11,11 @@ export type RoomProps = {
     sentAt: string;
     sentBy: string;
   };
-  type: string;
+  type?: string;
 };
 
 export type MessageProps = {
+  id?: string;
   messageText?: string;
   isImage?: boolean;
   sentAt?: string;
@@ -33,4 +34,5 @@ export type UserProps = {
 export type AppStackParams = {
   Main: undefined;
   Room: {payload: string};
+  ImageView: {id: string; messageText?: string};
 };

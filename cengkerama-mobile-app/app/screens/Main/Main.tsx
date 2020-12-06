@@ -1,21 +1,27 @@
-import React, {useCallback, useState} from 'react';
-import Layout from '../../layout';
-import Header from '../../components/MainHeader';
-import Scrollbar from '../../components/Scrollbar';
-import Sidebar from '../../components/Sidebar';
-import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
-import {AppStackParams, RoomProps} from '../../interface';
-import Card from '../../components/Chat/Card';
-import useRoom from '../../hooks/useRoom';
-import {StackNavigationProp} from '@react-navigation/stack';
+import React, { useCallback, useState } from "react";
+import { FlatList, ListRenderItem, StyleSheet } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
+import Layout from "../../layout";
+import Header from "../../components/MainHeader";
+import Scrollbar from "../../components/Scrollbar";
+import Sidebar from "../../components/Sidebar";
+import { AppStackParams, RoomProps } from "../../interface";
+import Card from "../../components/Chat/Card";
+import useRoom from "../../hooks/useRoom";
+
+const styles = StyleSheet.create({
+  flatlistContainer: {
+    paddingBottom: 14,
+  },
+});
 interface Props {
-  navigation: StackNavigationProp<AppStackParams, 'Main'>;
+  navigation: StackNavigationProp<AppStackParams, "Main">;
 }
 
-const myId = '12345';
+const myId = "12345";
 
-const Main = ({navigation}: Props) => {
+const Main = ({ navigation }: Props) => {
   const [isActive, setSidebar] = useState<boolean>(false);
   const rooms = useRoom(myId);
 
@@ -25,11 +31,11 @@ const Main = ({navigation}: Props) => {
   }, [setSidebar]);
 
   const cardOnPress = (payload: string) => {
-    navigation.navigate('Room', {payload});
+    navigation.navigate("Room", { payload });
   };
 
   // render rooms on flatlist
-  const renderRooms: ListRenderItem<RoomProps> = ({item}) => {
+  const renderRooms: ListRenderItem<RoomProps> = ({ item }) => {
     return <Card key={item.id} {...item} onPress={cardOnPress} />;
   };
 
@@ -46,11 +52,5 @@ const Main = ({navigation}: Props) => {
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  flatlistContainer: {
-    paddingBottom: 14,
-  },
-});
 
 export default Main;

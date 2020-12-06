@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   backgroundColor,
   BackgroundColorProps,
@@ -8,11 +8,13 @@ import {
   spacing,
   SpacingProps,
   useRestyle,
-} from '@shopify/restyle';
-import {StyleProp, ViewProps, ViewStyle} from 'react-native';
-import Animated from 'react-native-reanimated';
-import {Theme} from '../../theme/default';
-import View from './View';
+} from "@shopify/restyle";
+import { StyleProp, ViewStyle } from "react-native";
+import Animated from "react-native-reanimated";
+
+import { Theme } from "../../theme/default";
+
+import View from "./View";
 
 const restyleFunctions = [spacing, border, backgroundColor];
 type AnimatedViewProps = LayoutProps<Theme> &

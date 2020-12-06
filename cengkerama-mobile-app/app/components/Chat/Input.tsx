@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Dimensions, TextInput} from 'react-native';
-import {Text, TouchableOpacity, View} from '../common';
+import {TouchableOpacity, View} from '../common';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors, fonts} from '../../constant';
 
@@ -12,10 +12,13 @@ interface Props {
 
 const Input = ({onSend}: Props) => {
   const [messageText, setMessage] = useState<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [image, setImage] = useState<string>('');
   // send handler
   const send = () => {
-    if (onSend) onSend(messageText, false);
+    if (onSend) {
+      onSend(messageText, false);
+    }
     setMessage('');
   };
   return (

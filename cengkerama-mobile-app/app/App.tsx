@@ -1,12 +1,11 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {ThemeProvider} from '@shopify/restyle';
 import theme from './theme/default';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import AppStack from './navigation/AppStack';
 
-const StackNavigator = createNativeStackNavigator();
+const StackNavigator = createStackNavigator();
 
 interface Props {}
 

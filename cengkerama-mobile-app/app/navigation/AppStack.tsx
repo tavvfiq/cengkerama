@@ -1,19 +1,33 @@
-import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import Main from '../screens/Main';
-import Room from '../screens/Room';
+import React from "react";
+// import {createStackNavigator} from '@react-navigation/stack';
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-const StackNavigator = createStackNavigator();
+import Main from "../screens/Main";
+import Room from "../screens/Room";
+import ImageView from "../screens/Room/ImageView";
+import { AppStackParams } from "../interface";
 
-interface Props {}
+const StackNavigator = createSharedElementStackNavigator<AppStackParams>();
 
-const AppStack = (props: Props) => {
+const AppStack = () => {
   return (
     <StackNavigator.Navigator
       initialRouteName="Main"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{
+        headerShown: false,
+        cardOverlayEnabled: true,
+        cardStyle: { backgroundColor: "rgba(0,0,0,0.7)" },
+      }}
+    >
       <StackNavigator.Screen name="Main" component={Main} />
       <StackNavigator.Screen name="Room" component={Room} />
+      <StackNavigator.Screen
+        name="ImageView"
+        component={ImageView}
+        sharedElements={(route) => {
+          return [route.params.id];
+        }}
+      />
     </StackNavigator.Navigator>
   );
 };

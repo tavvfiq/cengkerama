@@ -81,7 +81,7 @@ const checkTime = (time: string): string => {
   const _year = dayjs(time).year();
   const _month = dayjs(time).month();
   const _day = dayjs(time).day();
-  console.log(_year, _month, _day);
+
   if (dayjs().subtract(_year, 'year').year() === 0) {
     if (dayjs().subtract(_month, 'month').month() === 0) {
       if (dayjs().subtract(_day, 'day').day() <= 1) {

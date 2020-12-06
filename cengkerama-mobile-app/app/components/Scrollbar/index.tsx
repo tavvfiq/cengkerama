@@ -1,20 +1,30 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import React, { useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
 import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from 'react-native-reanimated';
-import {View} from '../common';
-import AnimatedView from '../common/AnimatedView';
-import Bar from './Bar';
+} from "react-native-reanimated";
+
+import { View } from "../common";
+import AnimatedView from "../common/AnimatedView";
+
+import Bar from "./Bar";
 
 const bars = [
-  {label: 'All'},
-  {label: 'Important'},
-  {label: 'Unread'},
-  {label: 'Read'},
+  { label: "All" },
+  { label: "Important" },
+  { label: "Unread" },
+  { label: "Read" },
 ];
+
+const styles = StyleSheet.create({
+  scrollviewContainer: {
+    paddingHorizontal: 28,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+});
 
 interface Props {}
 
@@ -30,12 +40,12 @@ const ScrollBar = (props: Props) => {
   };
   const style = useAnimatedStyle(() => {
     return {
-      position: 'absolute',
+      position: "absolute",
       width: BAR_WIDTH,
       height: BAR_HEIGHT,
       marginLeft: 28,
-      overflow: 'hidden',
-      transform: [{translateX: withTiming(xPosition.value)}],
+      overflow: "hidden",
+      transform: [{ translateX: withTiming(xPosition.value) }],
     };
   });
   return (
@@ -43,7 +53,8 @@ const ScrollBar = (props: Props) => {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollviewContainer}>
+        contentContainerStyle={styles.scrollviewContainer}
+      >
         <AnimatedView
           animatedStyle={style}
           width="100%"
@@ -56,7 +67,7 @@ const ScrollBar = (props: Props) => {
             <Bar
               key={index}
               onPress={handleOnPress}
-              {...{label: bar.label, currentIndex, index}}
+              {...{ label: bar.label, currentIndex, index }}
             />
           );
         })}
@@ -64,13 +75,5 @@ const ScrollBar = (props: Props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollviewContainer: {
-    paddingHorizontal: 28,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-});
 
 export default ScrollBar;

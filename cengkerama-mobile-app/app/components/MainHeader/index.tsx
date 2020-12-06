@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
-import {Text, View} from '../common';
-import {BorderlessButton} from 'react-native-gesture-handler';
-import Plus from './Icons/Plus';
-import Search from './Icons/Search';
-import More from './Icons/More';
-import Bar from './Bar';
+import React, { useState } from "react";
+import { BorderlessButton } from "react-native-gesture-handler";
+
+import { Text, View } from "../common";
+
+import Plus from "./Icons/Plus";
+import Search from "./Icons/Search";
+import More from "./Icons/More";
+import Bar from "./Bar";
 
 interface Props {
   moreOnPress: () => void;
@@ -12,7 +14,7 @@ interface Props {
   searchOnPress?: () => void;
 }
 
-const MainHeader = ({moreOnPress, addOnPress, searchOnPress}: Props) => {
+const MainHeader = ({ moreOnPress, addOnPress, searchOnPress }: Props) => {
   const [addOpened, openAdd] = useState<boolean>(false);
 
   return (
@@ -20,7 +22,8 @@ const MainHeader = ({moreOnPress, addOnPress, searchOnPress}: Props) => {
       backgroundColor="white"
       flexDirection="row"
       justifyContent="space-between"
-      paddingVertical="m">
+      paddingVertical="m"
+    >
       <Text variant="header" paddingLeft="l">
         Cengkerama
       </Text>
@@ -29,22 +32,26 @@ const MainHeader = ({moreOnPress, addOnPress, searchOnPress}: Props) => {
         flex={1}
         flexDirection="row"
         justifyContent="flex-end"
-        paddingRight="l">
+        paddingRight="l"
+      >
         <BorderlessButton
-          style={{alignSelf: 'center', overflow: 'visible'}}
+          style={{ alignSelf: "center", overflow: "visible" }}
           onPress={() => {
             openAdd((prevState) => !prevState);
-          }}>
+          }}
+        >
           <Plus />
         </BorderlessButton>
         <BorderlessButton
-          style={{alignSelf: 'center', marginLeft: 14}}
-          onPress={searchOnPress}>
+          style={{ alignSelf: "center", marginLeft: 14 }}
+          onPress={searchOnPress}
+        >
           <Search />
         </BorderlessButton>
         <BorderlessButton
-          style={{alignSelf: 'center', marginLeft: 14}}
-          onPress={moreOnPress}>
+          style={{ alignSelf: "center", marginLeft: 14 }}
+          onPress={moreOnPress}
+        >
           <More />
         </BorderlessButton>
       </View>

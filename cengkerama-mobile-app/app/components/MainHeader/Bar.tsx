@@ -1,15 +1,16 @@
-import React, {useEffect} from 'react';
-import {Dimensions} from 'react-native';
+import React, { useEffect } from "react";
+import { Dimensions } from "react-native";
 import Animated, {
-  interpolate,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from 'react-native-reanimated';
-import {TouchableOpacity, View} from '../common';
-import Channel from './Icons/Channel';
-import Group from './Icons/Group';
-import Private from './Icons/Private';
+} from "react-native-reanimated";
+
+import { TouchableOpacity, View } from "../common";
+
+import Channel from "./Icons/Channel";
+import Group from "./Icons/Group";
+import Private from "./Icons/Private";
 
 interface Props {
   isOpened?: boolean;
@@ -18,12 +19,12 @@ interface Props {
   newGroup?: () => void;
 }
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const BAR_WIDTH = 0.52 * width;
 const BAR_HEIGHT = 0.12 * width;
 
-const Bar = ({isOpened, newChannel, newPrivate, newGroup}: Props) => {
+const Bar = ({ isOpened }: Props) => {
   const barWidth = useSharedValue<number>(0);
 
   useEffect(() => {
@@ -36,13 +37,13 @@ const Bar = ({isOpened, newChannel, newPrivate, newGroup}: Props) => {
   const style = useAnimatedStyle(() => {
     return {
       width: withTiming(barWidth.value),
-      position: 'absolute',
-      overflow: 'hidden',
+      position: "absolute",
+      overflow: "hidden",
       height: BAR_HEIGHT,
       top: 14,
       flex: 1,
       left: 28,
-      direction: 'rtl',
+      direction: "rtl",
     };
   });
   return (
@@ -55,7 +56,8 @@ const Bar = ({isOpened, newChannel, newPrivate, newGroup}: Props) => {
         backgroundColor="bluePrimary"
         justifyContent="space-evenly"
         borderRadius="m"
-        alignItems="center">
+        alignItems="center"
+      >
         <TouchableOpacity alignSelf="center">
           <Group />
         </TouchableOpacity>

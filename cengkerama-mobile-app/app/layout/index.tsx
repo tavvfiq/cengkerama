@@ -1,6 +1,6 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {View} from '../components/common';
+import React from "react";
+
+import { View } from "../components/common";
 
 const Layout: React.FunctionComponent = (props) => {
   return (

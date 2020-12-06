@@ -1,21 +1,19 @@
-import React, {useEffect} from 'react';
-import {Dimensions, Image} from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import {Text, TouchableOpacity, View} from '../common';
-import AnimatedView from '../common/AnimatedView';
-import Back from './Icons/Back';
-import Call from './Icons/Call';
-import Contact from './Icons/Contact';
-import Faq from './Icons/Faq';
-import Friend from './Icons/Friend';
-import Saved from './Icons/Saved';
-import Setting from './Icons/Setting';
+import React from "react";
+import { Dimensions, Image } from "react-native";
+import { useAnimatedStyle, withTiming } from "react-native-reanimated";
 
-const {width} = Dimensions.get('window');
+import { Text, TouchableOpacity, View } from "../common";
+import AnimatedView from "../common/AnimatedView";
+
+import Back from "./Icons/Back";
+import Call from "./Icons/Call";
+import Contact from "./Icons/Contact";
+import Faq from "./Icons/Faq";
+import Friend from "./Icons/Friend";
+import Saved from "./Icons/Saved";
+import Setting from "./Icons/Setting";
+
+const { width } = Dimensions.get("window");
 
 const SIDEBAR_WIDTH = 0.82 * width;
 const INITIAL_WIDTH = 0;
@@ -27,45 +25,36 @@ interface Props {
 
 const SidebarMenu = [
   {
-    label: 'Contacts',
+    label: "Contacts",
     icon: <Contact />,
     onPress: () => {},
   },
   {
-    label: 'Calls',
+    label: "Calls",
     icon: <Call />,
     onPress: () => {},
   },
   {
-    label: 'Saved Messages',
+    label: "Saved Messages",
     icon: <Saved />,
     onPress: () => {},
   },
   {
-    label: 'Invite Friends',
+    label: "Invite Friends",
     icon: <Friend />,
     onPress: () => {},
   },
   {
-    label: 'FAQ',
+    label: "FAQ",
     icon: <Faq />,
     onPress: () => {},
   },
 ];
 
-const Sidebar = ({isActive, backOnPress}: Props) => {
-  const sidebarWidth = useSharedValue<number>(INITIAL_WIDTH);
-  useEffect(() => {
-    if (isActive) {
-      sidebarWidth.value = SIDEBAR_WIDTH;
-    } else {
-      sidebarWidth.value = INITIAL_WIDTH;
-    }
-  }, [isActive]);
-
+const Sidebar = ({ isActive, backOnPress }: Props) => {
   const style = useAnimatedStyle(() => {
     return {
-      width: withTiming(sidebarWidth.value),
+      width: withTiming(isActive ? SIDEBAR_WIDTH : INITIAL_WIDTH),
     };
   });
 
@@ -75,11 +64,11 @@ const Sidebar = ({isActive, backOnPress}: Props) => {
         {
           top: 0,
           right: 0,
-          position: 'absolute',
+          position: "absolute",
           zIndex: 2,
-          overflow: 'hidden',
+          overflow: "hidden",
           flex: 1,
-          height: '100%',
+          height: "100%",
         },
         style,
       ]}
@@ -94,16 +83,19 @@ const Sidebar = ({isActive, backOnPress}: Props) => {
       paddingVertical="m"
       borderWidth={1}
       borderStyle="solid"
-      borderColor="gray">
+      borderColor="gray"
+    >
       <View
         flexDirection="row"
         justifyContent="space-between"
-        alignItems="center">
+        alignItems="center"
+      >
         <TouchableOpacity
           paddingLeft="l"
           paddingRight="l"
           alignSelf="center"
-          onPress={backOnPress}>
+          onPress={backOnPress}
+        >
           <Back />
         </TouchableOpacity>
         <TouchableOpacity alignSelf="center" paddingRight="l">
@@ -115,21 +107,23 @@ const Sidebar = ({isActive, backOnPress}: Props) => {
         marginTop="l"
         flexDirection="row"
         justifyContent="flex-start"
-        alignItems="center">
+        alignItems="center"
+      >
         <Image
           style={{
             width: width * 0.18,
             height: width * 0.18,
             borderRadius: (width * 0.14) / 4,
-            alignSelf: 'center',
+            alignSelf: "center",
           }}
-          source={require('../../assets/example.jpg')}
+          source={require("../../assets/example.jpg")}
         />
         <Text
           variant="headerProfile"
           numberOfLines={2}
           paddingLeft="s"
-          style={{maxWidth: 0.46 * width}}>
+          style={{ maxWidth: 0.46 * width }}
+        >
           Taufiq Widi Nugroho
         </Text>
       </View>
@@ -141,12 +135,14 @@ const Sidebar = ({isActive, backOnPress}: Props) => {
             justifyContent="flex-start"
             alignItems="center"
             paddingHorizontal="l"
-            marginTop="l">
+            marginTop="l"
+          >
             <View
               flex={1}
               flexDirection="row"
               justifyContent="center"
-              alignItems="center">
+              alignItems="center"
+            >
               {item.icon}
             </View>
             <View flex={5} marginLeft="s">
