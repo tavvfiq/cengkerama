@@ -1,17 +1,18 @@
-import {useState, useEffect} from 'react';
-import {RoomProps} from '../interface';
-import {FirestoreService} from '../services';
+import { useState, useEffect } from "react";
+
+import { RoomProps } from "../interface";
+import { FirestoreService } from "../services";
 
 const useRoom = (userId: string) => {
   const [rooms, setRoom] = useState<RoomProps[]>([]);
 
   useEffect(() => {
     const subscriber = FirestoreService.RoomCollection.where(
-      'members',
-      'array-contains',
+      "members",
+      "array-contains",
       userId,
     )
-      .orderBy('recentMessage.sentAt', 'desc')
+      .orderBy("recentMessage.sentAt", "desc")
       .onSnapshot(
         (result) => {
           if (result) {
