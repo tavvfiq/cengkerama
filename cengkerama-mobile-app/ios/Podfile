@@ -12,6 +12,8 @@ target 'cengkerama' do
 
   pod 'RNSharedElement', :path => '../node_modules/react-native-shared-element'
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'cengkeramaTests' do
     inherit! :complete
     # Pods for testing
