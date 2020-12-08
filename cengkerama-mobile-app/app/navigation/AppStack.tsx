@@ -4,7 +4,7 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 
 import Main from "../screens/Main";
 import Room from "../screens/Room";
-import ImageView from "../screens/Room/ImageView";
+import ImageView from "../screens/ImageView";
 import { AppStackParams } from "../interface";
 
 const StackNavigator = createSharedElementStackNavigator<AppStackParams>();

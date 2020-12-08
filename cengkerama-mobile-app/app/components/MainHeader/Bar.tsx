@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Dimensions } from "react-native";
+import { Alert, Dimensions } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -64,7 +64,15 @@ const Bar = ({ isOpened }: Props) => {
         <TouchableOpacity alignSelf="center">
           <Private />
         </TouchableOpacity>
-        <TouchableOpacity alignSelf="center">
+        <TouchableOpacity
+          alignSelf="center"
+          onPress={() =>
+            Alert.alert(
+              "WIP feature",
+              "yeay, you found a work in progress feature!",
+            )
+          }
+        >
           <Channel />
         </TouchableOpacity>
       </View>

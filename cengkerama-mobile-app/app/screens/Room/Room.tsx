@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, ListRenderItem, StyleSheet } from "react-native";
 import dayjs from "dayjs";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -34,29 +34,34 @@ type Props = {
 
 const myId = "12345";
 
-let date: string[] = [];
-
 const Room = ({ navigation, route }: Props) => {
   const [payload] = useState<RoomProps>(() => {
     const { id, recentMessage, members } = JSON.parse(route.params.payload);
     return { id, recentMessage, members };
   });
   const { id, recentMessage } = payload;
+
   // useMessage hooks
   const messages = useMessage(id);
 
   const FLRef = useRef<FlatList<MessageProps>>(null);
 
-  // fetch user detail for header
-  useEffect(() => {
-    // TODO: fetch user detail and store it to user
-  }, []);
+  const date = useRef<Array<string>>([]);
 
-  // update readBy param in firestore
-  useEffect(() => {
+  const scrollToEnd = useCallback(() => {
     if (FLRef.current) {
       FLRef.current.scrollToEnd({ animated: true });
     }
+  }, [FLRef.current]);
+
+  // scroll to end on messages change
+  useEffect(() => {
+    scrollToEnd();
+  }, [messages]);
+
+  // update readBy param in firestore
+  useEffect(() => {
+    scrollToEnd();
     const readBy = recentMessage?.readBy;
     const isRead = readBy?.indexOf(myId);
     if ((isRead as number) < 0) {
@@ -75,19 +80,20 @@ const Room = ({ navigation, route }: Props) => {
   }, []);
 
   // send message function
-  const sendMessage = async (messageText: string, isImage: boolean) => {
+  const sendMessage = async (messageText: string, type?: string) => {
     try {
       const message: MessageProps = {
         messageText,
-        isImage,
         sentBy: myId,
         sentAt: new Date().toISOString(),
+        type,
       };
       const newRecentMessage = {
         ...recentMessage,
         messageText,
         sentAt: new Date().toISOString(),
         sentBy: myId,
+        type,
       };
       await FirestoreService.MessageCollection.doc(id)
         .collection("messages")
@@ -101,8 +107,8 @@ const Room = ({ navigation, route }: Props) => {
   };
 
   useEffect(() => {
-    if (date.length) {
-      date = [];
+    if (date.current.length) {
+      date.current = [];
     }
   }, [messages]);
 
@@ -113,9 +119,12 @@ const Room = ({ navigation, route }: Props) => {
 
   // render flatlist item
   const renderItems: ListRenderItem<MessageProps> = ({ item, index }) => {
-    const isSameDate = date.indexOf(dayjs(item.sentAt).format("DDMMYYYY"));
+    const isSameDate = date.current.indexOf(
+      dayjs(item.sentAt).format("DDMMYYYY"),
+    );
+
     if (isSameDate < 0) {
-      date.push(dayjs(item.sentAt as string).format("DDMMYYYY"));
+      date.current.push(dayjs(item.sentAt as string).format("DDMMYYYY"));
     }
     return (
       <View key={index}>
@@ -125,9 +134,9 @@ const Room = ({ navigation, route }: Props) => {
           </Text>
         )}
         {item.sentBy === myId ? (
-          <MyBubble key={index} {...item} onPress={onPressBubble} />
+          <MyBubble key={item.id} {...item} onPress={onPressBubble} />
         ) : (
-          <Bubble key={index} {...item} onPress={onPressBubble} />
+          <Bubble key={item.id} {...item} onPress={onPressBubble} />
         )}
       </View>
     );
@@ -136,20 +145,16 @@ const Room = ({ navigation, route }: Props) => {
   return (
     <Layout>
       <Header backOnPress={() => navigation.goBack()} />
-      <FlatList
-        contentContainerStyle={styles.flatlistContainer}
-        data={messages}
-        renderItem={renderItems}
-        keyExtractor={(_, index) => String(index)}
-        ref={FLRef}
-        onContentSizeChange={() => {
-          if (FLRef.current) {
-            FLRef.current.scrollToEnd({
-              animated: true,
-            });
-          }
-        }}
-      />
+      {messages.length !== 0 && (
+        <FlatList
+          contentContainerStyle={styles.flatlistContainer}
+          data={messages}
+          renderItem={renderItems}
+          keyExtractor={(item) => String(item.id)}
+          ref={FLRef}
+          onContentSizeChange={scrollToEnd}
+        />
+      )}
       <Input onSend={sendMessage} />
     </Layout>
   );

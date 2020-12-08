@@ -10,6 +10,7 @@ export type RoomProps = {
     readBy: Array<string>;
     sentAt: string;
     sentBy: string;
+    type: string;
   };
   type?: string;
 };
@@ -20,6 +21,7 @@ export type MessageProps = {
   isImage?: boolean;
   sentAt?: string;
   sentBy?: string;
+  type?: string;
 };
 
 export type UserProps = {
@@ -33,6 +35,20 @@ export type UserProps = {
 
 export type AppStackParams = {
   Main: undefined;
-  Room: {payload: string};
-  ImageView: {id: string; messageText?: string};
+  Room: { payload: string };
+  ImageView: { id: string; data?: string };
+};
+
+export type ImageType = {
+  uri: string;
+  fileSize?: number | null;
+  type?: string | null;
+  filename: string | null;
+  width?: number | null;
+  height?: number | null;
+};
+
+export type ScrollbarItems = {
+  label: string;
+  onPress?: () => void;
 };

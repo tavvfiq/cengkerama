@@ -13,6 +13,7 @@ import {
   Pressable,
   TouchableHighlight,
   TouchableOpacity as _TouchableOpacity,
+  ViewStyle,
 } from "react-native";
 
 import { Theme } from "../../theme/default";
@@ -27,6 +28,7 @@ type Props = LayoutProps<Theme> &
     onPress?: () => void;
     onLongPress?: () => void;
     children: React.ReactNode;
+    style?: ViewStyle;
   };
 
 export const Button = ({ onPress, children, ...rest }: Props) => {

@@ -2,7 +2,11 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  PinchGestureHandler,
+  PinchGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -23,7 +27,8 @@ const styles = StyleSheet.create({
   imageStyle: {
     maxWidth: width,
     maxHeight: height,
-    resizeMode: "cover",
+    alignSelf: "center",
+    resizeMode: "contain",
   },
 });
 
@@ -33,20 +38,25 @@ interface Props {
 }
 
 const ImageView = ({ navigation, route }: Props) => {
-  const { id } = route.params;
-  const translateX = useSharedValue<number>(0);
+  const { id, data } = route.params;
+  const { uri, width: _width, height: _height } = JSON.parse(data as string);
   const translateY = useSharedValue<number>(0);
-  const isGestureActive = useSharedValue<boolean>(false);
+  const scale = useSharedValue<number>(1);
   const doGoBack = () => {
     navigation.goBack();
   };
-
-  const onGestureEvent = useAnimatedGestureHandler({
-    onStart: () => {
-      isGestureActive.value = true;
+  const onPinchEvent = useAnimatedGestureHandler<PinchGestureHandlerGestureEvent>(
+    {
+      onActive: (event) => {
+        scale.value = event.scale;
+      },
+      onEnd: () => {
+        scale.value = withTiming(1);
+      },
     },
-    onActive: ({ translationX, translationY }) => {
-      translateX.value = translationX;
+  );
+  const onGestureEvent = useAnimatedGestureHandler({
+    onActive: ({ translationY }) => {
       translateY.value = translationY;
     },
     onEnd: ({ velocityY }) => {
@@ -55,42 +65,41 @@ const ImageView = ({ navigation, route }: Props) => {
       if (goBack) {
         runOnJS(doGoBack)();
       } else {
-        translateX.value = withTiming(0);
         translateY.value = withTiming(0);
       }
-      isGestureActive.value = false;
     },
   });
   const style = useAnimatedStyle(() => {
-    const scale = interpolate(
+    const _scale = interpolate(
       translateY.value,
       [0, height],
-      [1, 0.5],
+      [1, 0.4],
       Extrapolate.CLAMP,
     );
     return {
       flex: 1,
       transform: [
-        { translateX: translateX.value * scale },
-        { translateY: translateY.value * scale },
-        { scale },
+        { translateY: translateY.value * _scale },
+        { scale: _scale * scale.value },
       ],
     };
   });
 
-  const borderStyle = useAnimatedStyle(() => ({
-    borderRadius: withTiming(isGestureActive.value ? 24 : 0),
-  }));
-
   return (
     <PanGestureHandler onGestureEvent={onGestureEvent}>
       <Animated.View style={style}>
-        <SharedElement id={id}>
-          <Animated.Image
-            source={require("../../assets/example.jpg")}
-            style={styles.imageStyle}
-          />
-        </SharedElement>
+        <PinchGestureHandler onGestureEvent={onPinchEvent}>
+          <Animated.View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <SharedElement id={id}>
+              <Animated.Image
+                source={{ uri: uri }}
+                style={[styles.imageStyle, { width: _width, height: _height }]}
+              />
+            </SharedElement>
+          </Animated.View>
+        </PinchGestureHandler>
       </Animated.View>
     </PanGestureHandler>
   );

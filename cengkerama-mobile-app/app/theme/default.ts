@@ -1,5 +1,6 @@
-import {createTheme} from '@shopify/restyle';
-import {fonts, colors as palette} from '../constant';
+import { createTheme } from "@shopify/restyle";
+
+import { fonts, colors as palette } from "../constant";
 
 const theme = createTheme({
   colors: {
@@ -8,18 +9,18 @@ const theme = createTheme({
 
     chatListCardBg: palette.none,
 
-    bluePrimary: '#2675EC',
-    none: 'rgba(0,0,0,0)',
-    redPrimary: '#FF0000',
+    bluePrimary: "#2675EC",
+    none: "rgba(0,0,0,0)",
+    redPrimary: "#FF0000",
 
-    darkGray: '#848484',
-    gray: '#F6F6F6',
-    lightGray: '#FAFAFA',
+    darkGray: "#848484",
+    gray: "#F6F6F6",
+    lightGray: "#FAFAFA",
 
-    greenPrimary: '#40D81A',
-    fontBlack: '#131313',
-    black: '#000000',
-    white: '#FFFFFF',
+    greenPrimary: "#40D81A",
+    fontBlack: "#131313",
+    black: "#000000",
+    white: "#FFFFFF",
   },
   spacing: {
     s: 14,
@@ -36,98 +37,98 @@ const theme = createTheme({
       fontSize: 28,
       lineHeight: 34,
       fontFamily: fonts.GilroyBold,
-      color: 'bluePrimary',
+      color: "bluePrimary",
     },
     headerProfile: {
       fontSize: 20,
       lineHeight: 31,
       fontFamily: fonts.GilroyBold,
-      color: 'bluePrimary',
+      color: "bluePrimary",
     },
     contactName: {
       fontSize: 18,
       lineHeight: 28,
       fontFamily: fonts.GilroyBold,
-      color: 'fontBlack',
+      color: "fontBlack",
     },
     lastChatUnread: {
       fontSize: 13,
       lineHeight: 19,
       fontFamily: fonts.GilroyMedium,
-      color: 'bluePrimary',
+      color: "bluePrimary",
     },
     lastChat: {
       fontSize: 13,
       lineHeight: 19,
       fontFamily: fonts.GilroyMedium,
-      color: 'darkGray',
+      color: "darkGray",
     },
     sidebarMenu: {
       fontSize: 17,
       lineHeight: 23,
       fontFamily: fonts.GilroySemiBold,
-      color: 'bluePrimary',
+      color: "bluePrimary",
     },
     scrollSelectorActive: {
       fontSize: 18,
       lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
-      color: 'white',
-      textAlign: 'center',
-      textAlignVertical: 'center',
+      color: "white",
+      textAlign: "center",
+      textAlignVertical: "center",
     },
     scrollSelector: {
       fontSize: 18,
       lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
-      color: 'fontBlack',
-      textAlign: 'center',
-      textAlignVertical: 'center',
+      color: "fontBlack",
+      textAlign: "center",
+      textAlignVertical: "center",
     },
     profileMenu: {
       fontSize: 20,
       lineHeight: 24,
       fontFamily: fonts.GilroyBold,
-      color: 'fontBlack',
+      color: "fontBlack",
     },
     profileSubmenu: {
       fontSize: 17,
       lineHeight: 21,
       fontFamily: fonts.GilroySemiBold,
-      color: 'fontBlack',
+      color: "fontBlack",
     },
     profileSubmenu2: {
       fontSize: 14,
       lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
-      color: 'darkGray',
-      textAlignVertical: 'center',
+      color: "darkGray",
+      textAlignVertical: "center",
     },
     timestamp: {
       fontSize: 14,
       lineHeight: 24,
       fontFamily: fonts.GilroyMedium,
-      color: 'darkGray',
-      textAlignVertical: 'center',
+      color: "darkGray",
+      textAlignVertical: "center",
     },
     timestampChatroom: {
       fontSize: 13,
       lineHeight: 24,
       fontFamily: fonts.GilroySemiBold,
-      color: 'bluePrimary',
-      textAlignVertical: 'center',
+      color: "bluePrimary",
+      textAlignVertical: "center",
     },
     myChat: {
       fontSize: 13,
       lineHeight: 24,
       fontFamily: fonts.GilroyMedium,
-      color: 'fontBlack',
+      color: "fontBlack",
     },
     otherChat: {
       fontSize: 13,
       lineHeight: 24,
       fontFamily: fonts.GilroyMedium,
-      color: 'white',
+      color: "white",
     },
   },
   borderRadii: {

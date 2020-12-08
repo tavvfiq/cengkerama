@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ToastAndroid,
   Platform,
+  Linking,
 } from "react-native";
 import dayjs from "dayjs";
 import { SharedElement } from "react-navigation-shared-element";
@@ -14,7 +15,7 @@ import Clipboard from "@react-native-community/clipboard";
 
 import { MessageProps } from "../../interface";
 import { BorderlessButton, Text, View } from "../common";
-import { colors } from "../../constant";
+import { colors, linkRegx } from "../../constant";
 
 const { width } = Dimensions.get("window");
 
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
     width: 0.5 * width,
     height: 0.5 * width,
     borderRadius: 14,
+    resizeMode: "cover",
   },
   mybubble: {
     color: colors.fontBlack,
@@ -47,7 +49,7 @@ const copyToClipboard = (text: string) => {
   }
 };
 
-export const Bubble = ({ id, messageText, isImage, sentAt }: Props) => {
+export const Bubble = ({ id, messageText, type, sentAt }: Props) => {
   const navigation = useNavigation();
   const [opacity, setOpacity] = useState(1);
   useFocusEffect(() => {
@@ -55,14 +57,22 @@ export const Bubble = ({ id, messageText, isImage, sentAt }: Props) => {
       setOpacity(1);
     }
   });
+
+  const isLink = messageText?.match(linkRegx);
+
   const handleOnPress = () => {
-    if (isImage) {
+    if (type === "image") {
       setOpacity(0);
-      navigation.navigate("ImageView", { id, messageText });
+      navigation.navigate("ImageView", {
+        id,
+        data: JSON.stringify({ uri: messageText }),
+      });
+    } else if (isLink) {
+      Linking.openURL(messageText as string);
     }
   };
   const handleLongPress = () => {
-    if (!isImage) {
+    if (type === "text") {
       copyToClipboard(messageText as string);
     }
   };
@@ -78,13 +88,13 @@ export const Bubble = ({ id, messageText, isImage, sentAt }: Props) => {
           borderTopRightRadius="l"
           borderBottomRightRadius="l"
           borderBottomLeftRadius="s"
-          padding={isImage ? undefined : "s"}
+          padding={type !== "text" ? undefined : "s"}
           alignSelf="flex-start"
           overflow="hidden"
           maxWidth={0.79 * width}
           backgroundColor="chatBgSecondary"
         >
-          {isImage ? (
+          {type === "image" ? (
             <View
               borderTopLeftRadius="l"
               borderTopRightRadius="l"
@@ -102,7 +112,9 @@ export const Bubble = ({ id, messageText, isImage, sentAt }: Props) => {
               </SharedElement>
             </View>
           ) : (
-            <Text variant="otherChat">{messageText}</Text>
+            <Text variant="otherChat" style={isLink && { color: "skyblue" }}>
+              {messageText}
+            </Text>
           )}
         </View>
       </BorderlessButton>
@@ -112,7 +124,7 @@ export const Bubble = ({ id, messageText, isImage, sentAt }: Props) => {
     </>
   );
 };
-export const MyBubble = ({ id, messageText, isImage, sentAt }: Props) => {
+export const MyBubble = ({ id, messageText, type, sentAt }: Props) => {
   const navigation = useNavigation();
   const [opacity, setOpacity] = useState(1);
   useFocusEffect(() => {
@@ -120,15 +132,23 @@ export const MyBubble = ({ id, messageText, isImage, sentAt }: Props) => {
       setOpacity(1);
     }
   });
+
+  const isLink = messageText?.match(linkRegx);
+
   const handleOnPress = () => {
-    if (isImage) {
+    if (type === "image") {
       setOpacity(0);
-      navigation.navigate("ImageView", { id, messageText });
+      navigation.navigate("ImageView", {
+        id,
+        data: JSON.stringify({ uri: messageText }),
+      });
+    } else if (isLink) {
+      Linking.openURL(messageText as string);
     }
   };
 
   const handleLongPress = () => {
-    if (!isImage) {
+    if (type === "text") {
       copyToClipboard(messageText as string);
     }
   };
@@ -145,13 +165,13 @@ export const MyBubble = ({ id, messageText, isImage, sentAt }: Props) => {
           borderTopRightRadius="l"
           borderBottomRightRadius="s"
           borderBottomLeftRadius="l"
-          padding={isImage ? undefined : "s"}
+          padding={type !== "text" ? undefined : "s"}
           alignSelf="flex-end"
           overflow="hidden"
           maxWidth={0.79 * width}
           backgroundColor="chatBgMain"
         >
-          {isImage ? (
+          {type === "image" ? (
             <View
               borderTopLeftRadius="l"
               borderTopRightRadius="l"
@@ -163,13 +183,15 @@ export const MyBubble = ({ id, messageText, isImage, sentAt }: Props) => {
             >
               <SharedElement id={id as string}>
                 <Image
-                  source={{ uri: messageText }}
+                  source={require("../../assets/example.jpg")}
                   style={[styles.avatar, { opacity }]}
                 />
               </SharedElement>
             </View>
           ) : (
-            <Text variant="myChat">{messageText}</Text>
+            <Text variant="myChat" style={isLink && { color: "skyblue" }}>
+              {messageText}
+            </Text>
           )}
         </View>
       </BorderlessButton>

@@ -19,6 +19,16 @@ interface Props {
   navigation: StackNavigationProp<AppStackParams, "Main">;
 }
 
+const bars = [
+  { label: "All" },
+  { label: "Important" },
+  { label: "Unread" },
+  { label: "Read" },
+];
+
+const BAR_WIDTH = 115;
+const BAR_HEIGHT = 43;
+
 const myId = "12345";
 
 const Main = ({ navigation }: Props) => {
@@ -42,7 +52,11 @@ const Main = ({ navigation }: Props) => {
   return (
     <Layout>
       <Header moreOnPress={moreOnPress} />
-      <Scrollbar />
+      <Scrollbar
+        scrollbaritems={bars}
+        barWidth={BAR_WIDTH}
+        barHeight={BAR_HEIGHT}
+      />
       <Sidebar isActive={isActive} backOnPress={moreOnPress} />
       <FlatList
         contentContainerStyle={styles.flatlistContainer}
