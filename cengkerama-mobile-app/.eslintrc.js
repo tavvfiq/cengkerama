@@ -6,5 +6,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/no-anonymous-default-export": "off",
+    "react-native/no-inline-styles": "off",
+    "max-len": "off",
   },
 };
