@@ -29,6 +29,7 @@ type Props = LayoutProps<Theme> &
     onLongPress?: () => void;
     children: React.ReactNode;
     style?: ViewStyle;
+    disabled?: boolean;
   };
 
 export const Button = ({ onPress, children, ...rest }: Props) => {
@@ -64,10 +65,15 @@ export const BorderlessButton = ({
   );
 };
 
-export const TouchableOpacity = ({ onPress, children, ...rest }: Props) => {
+export const TouchableOpacity = ({
+  onPress,
+  children,
+  disabled,
+  ...rest
+}: Props) => {
   const props = useRestyle(restyleFunctions, rest);
   return (
-    <_TouchableOpacity onPress={onPress}>
+    <_TouchableOpacity onPress={onPress} disabled={disabled || false}>
       <View {...props}>{children}</View>
     </_TouchableOpacity>
   );

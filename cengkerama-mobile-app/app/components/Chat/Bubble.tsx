@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   Platform,
   Linking,
+  ActivityIndicator,
 } from "react-native";
 import dayjs from "dayjs";
 import { SharedElement } from "react-navigation-shared-element";
@@ -49,7 +50,12 @@ const copyToClipboard = (text: string) => {
   }
 };
 
-export const Bubble = ({ id, messageText, type, sentAt }: Props) => {
+export const Bubble: React.FunctionComponent<Props> = ({
+  id,
+  messageText,
+  type,
+  sentAt,
+}: Props) => {
   const navigation = useNavigation();
   const [opacity, setOpacity] = useState(1);
   useFocusEffect(() => {
@@ -118,13 +124,26 @@ export const Bubble = ({ id, messageText, type, sentAt }: Props) => {
           )}
         </View>
       </BorderlessButton>
-      <Text variant="timestampChatroom" style={styles.bubble}>
-        {dayjs(sentAt).format("hh:mm a")}
-      </Text>
+      {sentAt ? (
+        <Text variant="timestampChatroom" style={styles.bubble}>
+          {dayjs(sentAt).format("hh:mm a")}
+        </Text>
+      ) : (
+        <ActivityIndicator
+          size="small"
+          color={colors.bluePrimary}
+          style={{ alignSelf: "flex-start" }}
+        />
+      )}
     </>
   );
 };
-export const MyBubble = ({ id, messageText, type, sentAt }: Props) => {
+export const MyBubble: React.FunctionComponent<Props> = ({
+  id,
+  messageText,
+  type,
+  sentAt,
+}: Props) => {
   const navigation = useNavigation();
   const [opacity, setOpacity] = useState(1);
   useFocusEffect(() => {
@@ -183,7 +202,7 @@ export const MyBubble = ({ id, messageText, type, sentAt }: Props) => {
             >
               <SharedElement id={id as string}>
                 <Image
-                  source={require("../../assets/example.jpg")}
+                  source={{ uri: messageText }}
                   style={[styles.avatar, { opacity }]}
                 />
               </SharedElement>
@@ -195,9 +214,17 @@ export const MyBubble = ({ id, messageText, type, sentAt }: Props) => {
           )}
         </View>
       </BorderlessButton>
-      <Text variant="timestampChatroom" style={styles.mybubble}>
-        {dayjs(sentAt).format("hh:mm a")}
-      </Text>
+      {sentAt ? (
+        <Text variant="timestampChatroom" style={styles.mybubble}>
+          {dayjs(sentAt).format("hh:mm a")}
+        </Text>
+      ) : (
+        <ActivityIndicator
+          size="small"
+          color={colors.fontBlack}
+          style={{ alignSelf: "flex-end" }}
+        />
+      )}
     </>
   );
 };

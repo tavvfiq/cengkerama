@@ -1,3 +1,11 @@
+export type RecentMessage = {
+  messageText: string;
+  readBy: Array<string>;
+  sentAt: string;
+  sentBy: string;
+  type: string;
+};
+
 export type RoomProps = {
   id: string;
   createdAt?: string;
@@ -5,20 +13,13 @@ export type RoomProps = {
   members: Array<string>;
   modifiedAt?: string;
   name?: string;
-  recentMessage?: {
-    messageText: string;
-    readBy: Array<string>;
-    sentAt: string;
-    sentBy: string;
-    type: string;
-  };
+  recentMessage?: RecentMessage;
   type?: string;
 };
 
 export type MessageProps = {
   id?: string;
   messageText?: string;
-  isImage?: boolean;
   sentAt?: string;
   sentBy?: string;
   type?: string;
@@ -41,11 +42,11 @@ export type AppStackParams = {
 
 export type ImageType = {
   uri: string;
-  fileSize?: number | null;
-  type?: string | null;
-  filename: string | null;
-  width?: number | null;
-  height?: number | null;
+  fileSize?: number;
+  type?: string;
+  filename: string;
+  width: number;
+  height: number;
 };
 
 export type ScrollbarItems = {

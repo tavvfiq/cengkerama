@@ -12,7 +12,7 @@ const { width } = Dimensions.get("window");
 interface Props {
   id: string;
   content: { [key: string]: string | number };
-  onLongPress?: (id: string) => void;
+  onLongPress?: (id: string) => boolean;
 }
 
 const THUMBNAIL_SIZE = 0.27 * width;
@@ -34,9 +34,8 @@ const Card = ({ id, content, onLongPress }: Props) => {
     setOpacity(1);
   });
   const handleOnLongPress = () => {
-    setSelected((prevValue) => !prevValue);
     if (onLongPress) {
-      onLongPress(content.id as string);
+      setSelected(() => onLongPress(JSON.stringify(content)));
     }
   };
   const handleOnPress = () => {

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Dimensions, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { TouchableOpacity, View } from "../../common";
 import { colors, fonts } from "../../../constant";
+import { ImageType } from "../../../interface";
 
 import AttachmentPicker from "./AttachmentInput";
 import ImageInput from "./ImageInput";
@@ -26,7 +27,7 @@ const toggleActive = (
 };
 
 interface Props {
-  onSend?: (messageText: string, type: string) => void;
+  onSend?: (type: string, messageText?: string, imagePayload?: string) => void;
 }
 
 const attachState = {
@@ -39,18 +40,45 @@ const attachState = {
 
 const Input = ({ onSend }: Props) => {
   const [messageText, setMessage] = useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [type, setType] = useState<string>("text");
   const [isActive, setActive] = useState<{ [key: string]: boolean }>(
     attachState,
   );
+  const selectedImage = useRef<ImageType[]>([]);
+
+  const addOrRemoveImage = (payload: string): boolean => {
+    const image: ImageType = JSON.parse(payload);
+    const isSelected = selectedImage.current.findIndex((item) => {
+      return item.uri === image.uri;
+    });
+    if (isSelected < 0) {
+      // console.log("Image added");
+      // doesn't exist, add it
+      selectedImage.current.push(image);
+      return true;
+    } else {
+      // console.log("Image removed");
+      // exist, remove it
+      selectedImage.current.splice(isSelected, 1);
+      return false;
+    }
+  };
 
   // send handler
   const send = () => {
-    if (onSend) {
-      onSend(messageText, type);
+    try {
+      if (onSend) {
+        if (selectedImage.current.length > 0) {
+          const payload = JSON.stringify(selectedImage.current);
+          onSend("image", messageText, payload);
+          selectedImage.current = [];
+        } else {
+          onSend("text", messageText);
+          setMessage("");
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
-    setMessage("");
   };
 
   const handleAttchment = (what: string) => {
@@ -108,7 +136,12 @@ const Input = ({ onSend }: Props) => {
         isActive={isActive.parent}
         setActive={handleAttchment}
       />
-      <ImageInput isActive={isActive.image} setActive={handleAttchment} />
+      <ImageInput
+        isActive={isActive.image}
+        setActive={handleAttchment}
+        imageOnLongPress={addOrRemoveImage}
+        onSend={send}
+      />
     </>
   );
 };

@@ -16,13 +16,15 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../../../constant";
 import useCameraRoll from "../../../hooks/useCameraRoll";
 import { Text, TouchableOpacity, View } from "../../common";
-import Thumbnail from "../../Thumbnail/Thumbnail";
+import Thumbnail from "../../Thumbnail";
 
 const { width } = Dimensions.get("window");
 
 interface ImageContainerProps {
   isActive?: boolean;
   setActive: (what: string) => void;
+  imageOnLongPress?: (payload: string) => boolean;
+  onSend: () => void;
 }
 
 const THUMBNAIL_SIZE = 0.25 * width;
@@ -30,8 +32,13 @@ const PADDING = 16;
 
 const MAX_HEIGHT = THUMBNAIL_SIZE * 3 + PADDING;
 
-const ImageInput = ({ isActive, setActive }: ImageContainerProps) => {
-  const [image, func] = useCameraRoll();
+const ImageInput = ({
+  isActive,
+  setActive,
+  imageOnLongPress,
+  onSend,
+}: ImageContainerProps) => {
+  const [image, loading, setNumOfPhotos] = useCameraRoll();
   const translateY = useSharedValue<number>(0);
   useEffect(() => {
     if (isActive) {
@@ -64,9 +71,15 @@ const ImageInput = ({ isActive, setActive }: ImageContainerProps) => {
       bottom: 0,
       elevation: 3,
       height: withTiming(isActive ? MAX_HEIGHT : 0),
+      width: width,
       transform: [{ translateY: transY }],
     };
   });
+  const handleOnEndReached = () => {
+    if (!loading) {
+      setNumOfPhotos((prevValue) => prevValue + 9);
+    }
+  };
   return (
     <Animated.View style={style}>
       <View backgroundColor="white" height="100%" elevation={3}>
@@ -82,13 +95,25 @@ const ImageInput = ({ isActive, setActive }: ImageContainerProps) => {
               <Text variant="profileMenu" style={{ alignSelf: "center" }}>
                 Image
               </Text>
-              <TouchableOpacity alignSelf="center">
+              <TouchableOpacity
+                alignSelf="center"
+                onPress={() => {
+                  setActive("image");
+                  onSend();
+                }}
+              >
                 <Icon name="send" color={colors.bluePrimary} size={24} />
               </TouchableOpacity>
             </View>
           </Animated.View>
         </PanGestureHandler>
-        <Thumbnail data={image} />
+        {isActive && (
+          <Thumbnail
+            data={image ? image : []}
+            onReachEnd={handleOnEndReached}
+            cardOnLongPress={imageOnLongPress}
+          />
+        )}
       </View>
     </Animated.View>
   );
