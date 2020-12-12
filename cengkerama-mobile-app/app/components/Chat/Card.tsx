@@ -130,7 +130,7 @@ const checkTime = (time: string): string => {
   return _default;
 };
 
-const myId = "12345";
+const myId = "123456";
 
 const Card = ({ id, recentMessage, members, type, onPress }: CardProps) => {
   const handleOnPress = useCallback(() => {

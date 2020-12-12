@@ -104,8 +104,8 @@ export const Bubble: React.FunctionComponent<Props> = ({
             <View
               borderTopLeftRadius="l"
               borderTopRightRadius="l"
-              borderBottomRightRadius="s"
-              borderBottomLeftRadius="l"
+              borderBottomRightRadius="l"
+              borderBottomLeftRadius="s"
               overflow="hidden"
               maxWidth={0.5 * width}
               maxHeight={0.5 * width}

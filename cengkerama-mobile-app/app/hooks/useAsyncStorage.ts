@@ -10,7 +10,9 @@ export default function useAsyncStorage<T>(
   const readFromAsyncStorage = async () => {
     try {
       const payload = await AsyncStorage.getItem(key);
-      console.log("READ_ASYNC");
+      if (__DEV__) {
+        console.log("READ_ASYNC");
+      }
       if (payload !== null) {
         setValue(JSON.parse(payload));
       }
@@ -27,7 +29,9 @@ export default function useAsyncStorage<T>(
     try {
       const payload = JSON.stringify(value);
       await AsyncStorage.setItem(key, payload);
-      console.log("WRITE_ASYNC");
+      if (__DEV__) {
+        console.log("WRITE_ASYNC");
+      }
     } catch (e) {
       console.error(e);
     }

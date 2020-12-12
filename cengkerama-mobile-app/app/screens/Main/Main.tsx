@@ -29,7 +29,7 @@ const bars = [
 const BAR_WIDTH = 115;
 const BAR_HEIGHT = 43;
 
-const myId = "12345";
+const myId = "123456";
 
 const Main = ({ navigation }: Props) => {
   const [isActive, setSidebar] = useState<boolean>(false);

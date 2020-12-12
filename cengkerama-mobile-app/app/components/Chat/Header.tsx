@@ -59,7 +59,7 @@ const Header = ({ isOnline, backOnPress }: Props) => {
             marginLeft="s"
           >
             <Text variant="contactName" numberOfLines={1} ellipsizeMode="tail">
-              Mother
+              Taufiq Widi
             </Text>
             <Text variant={isOnline ? "lastChatUnread" : "lastChat"}>
               Online

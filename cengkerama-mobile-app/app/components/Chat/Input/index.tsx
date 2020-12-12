@@ -88,14 +88,7 @@ const Input = ({ onSend }: Props) => {
 
   return (
     <>
-      <View
-        backgroundColor="white"
-        padding="m"
-        width={width}
-        position="absolute"
-        elevation={3}
-        bottom={0}
-      >
+      <View backgroundColor="white" padding="m" width={width} elevation={3}>
         <View
           width="100%"
           flexDirection="row"
