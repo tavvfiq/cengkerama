@@ -8,5 +8,7 @@ module.exports = {
     "import/no-anonymous-default-export": "off",
     "react-native/no-inline-styles": "off",
     "max-len": "off",
+    "@typescript-eslint/camelcase": "off",
+    camelcase: "off",
   },
 };
