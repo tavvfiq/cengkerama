@@ -10,5 +10,7 @@ module.exports = {
     "max-len": "off",
     "@typescript-eslint/camelcase": "off",
     camelcase: "off",
+    curly: "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
 };
