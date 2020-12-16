@@ -1,23 +1,17 @@
-import React from 'react';
-import {ThemeProvider} from '@shopify/restyle';
-import theme from './theme/default';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import AppStack from './navigation/AppStack';
+import { ThemeProvider } from "@shopify/restyle";
+import React from "react";
+import { RecoilRoot } from "recoil";
 
-const StackNavigator = createStackNavigator();
+import AppContainer from "./navigation/AppContainer";
+import theme from "./theme/default";
 
-interface Props {}
-
-const App = (props: Props) => {
+const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StackNavigator.Navigator screenOptions={{headerShown: false}}>
-          <StackNavigator.Screen name="AppStack" component={AppStack} />
-        </StackNavigator.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <AppContainer />
+      </ThemeProvider>
+    </RecoilRoot>
   );
 };
 
