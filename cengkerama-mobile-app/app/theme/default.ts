@@ -130,6 +130,23 @@ const theme = createTheme({
       fontFamily: fonts.GilroyMedium,
       color: "white",
     },
+    banner: {
+      fontSize: 60,
+      // lineHeight: 34,
+      fontFamily: fonts.GilroyBold,
+      color: "bluePrimary",
+    },
+    bannerSplash: {
+      fontSize: 60,
+      // lineHeight: 34,
+      fontFamily: fonts.GilroyBold,
+      color: "white",
+    },
+    authButton: {
+      fontSize: 14,
+      fontFamily: fonts.GilroyBold,
+      color: "white",
+    },
   },
   borderRadii: {
     s: 10,
