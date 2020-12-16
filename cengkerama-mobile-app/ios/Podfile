@@ -16,6 +16,10 @@ target 'cengkerama' do
 
   pod 'react-native-image-resizer', :path => '../node_modules/react-native-image-resizer'
 
+  pod 'react-native-flipper', :path => '../node_modules/react-native-flipper'
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'cengkeramaTests' do
     inherit! :complete
     # Pods for testing
