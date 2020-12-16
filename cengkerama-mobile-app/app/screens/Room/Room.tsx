@@ -66,15 +66,20 @@ const Room = ({ navigation, route }: Props) => {
     }
     return (
       <View key={index}>
-        {(!isSameDate || lastIndex) && (
+        {lastIndex && (
           <Text variant="timestamp" marginBottom="s" style={styles.dateStyle}>
-            {dayjs(lastIndex ? item.sentAt : _date).format("ddd, D MMMM YYYY")}
+            {dayjs(item.sentAt).format("ddd, D MMMM YYYY")}
           </Text>
         )}
         {item.sentBy === myId ? (
           <MyBubble key={item.id} {...item} />
         ) : (
           <Bubble key={item.id} {...item} />
+        )}
+        {!isSameDate && (
+          <Text variant="timestamp" marginBottom="s" style={styles.dateStyle}>
+            {dayjs(_date).format("ddd, D MMMM YYYY")}
+          </Text>
         )}
       </View>
     );
@@ -89,13 +94,7 @@ const Room = ({ navigation, route }: Props) => {
             contentContainerStyle={styles.flatlistContainer}
             data={messages}
             renderItem={renderItems}
-            keyExtractor={(item, index) => {
-              if (item) {
-                return item.id as string;
-              } else {
-                return String(index);
-              }
-            }}
+            keyExtractor={(item) => item.id as string}
             inverted
           />
         )}
