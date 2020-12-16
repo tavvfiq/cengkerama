@@ -1,6 +1,7 @@
-import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
-import {colors} from '../../../constant';
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
+
+import { colors } from "../../../constant";
 /* SVGR has dropped some elements not supported by react-native-svg: title */
 
 function Search() {

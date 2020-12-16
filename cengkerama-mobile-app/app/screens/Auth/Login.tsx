@@ -1,8 +1,5 @@
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from "@react-native-community/google-signin";
-import React, { useRef } from "react";
+import { GoogleSigninButton } from "@react-native-community/google-signin";
+import React, { useEffect, useRef } from "react";
 import { Dimensions, TextInput } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -10,12 +7,11 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useSetRecoilState } from "recoil";
 
 import { BorderlessButton, Text, View } from "../../components/common";
 import { colors, fonts } from "../../constant";
+import useAuthentication from "../../hooks/useAuthentication";
 import Layout from "../../layout";
-import { authAtom } from "../../store/authentication";
 
 const { width } = Dimensions.get("window");
 
@@ -25,42 +21,51 @@ const initialInputValue = {
   displayName: "",
 };
 
-GoogleSignin.configure();
-
 const Login = () => {
-  const setState = useSetRecoilState(authAtom);
+  const [
+    isError,
+    loading,
+    signInWithGoogle,
+    signInWithPhoneNumber,
+    confirmCode,
+    setDisplayName,
+  ] = useAuthentication();
   const inputField = useRef<{ [key: string]: string }>(initialInputValue);
+  const index = useRef(0);
   const translateX = useSharedValue<number>(0);
 
-  const handleLoginWithPhoneNumber = () => {
-    translateX.value = -width;
+  const withPhoneNumber = () => {
+    if (inputField.current.phoneNumber === "") {
+      return;
+    }
+    signInWithPhoneNumber(inputField.current.phoneNumber);
   };
 
-  const verify = () => {
-    console.log(inputField.current);
-    translateX.value = -2 * width;
-  };
-  const handleLoginWithGoogle = async () => {
-    try {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
-      const userInfo = await GoogleSignin.signIn();
-      setState(() => {
-        return {
-          token: userInfo.idToken as string,
-          user: {
-            id: userInfo.user.id,
-            displayName: userInfo.user.name as string,
-            email: userInfo.user.email,
-            profilePicture: userInfo.user.photo as string,
-          },
-          isLoggedIn: true,
-        };
-      });
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (!isError && !loading) {
+      index.current++;
+      if (index.current > 1) {
+        translateX.value = -index.current * width;
+      }
     }
+  }, [isError, loading]);
+
+  const verify = () => {
+    if (inputField.current.otp === "") {
+      return;
+    }
+    confirmCode(inputField.current.otp);
+  };
+
+  const _setDisplayName = () => {
+    if (inputField.current.displayName === "") {
+      return;
+    }
+    setDisplayName(inputField.current.displayName);
+  };
+
+  const handleLoginWithGoogle = () => {
+    signInWithGoogle();
   };
   const styles = useAnimatedStyle(() => {
     return {
@@ -103,16 +108,26 @@ const Login = () => {
               </Text>
             </View>
             <BorderlessButton
-              onPress={handleLoginWithPhoneNumber}
-              width={0.74 * width}
-              height={0.102 * width}
+              onPress={() => {
+                translateX.value = -index.current * width;
+              }}
+              width={0.845 * width}
+              height={0.105 * width}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
               flexDirection="row"
               justifyContent="flex-start"
               overflow="hidden"
-              style={{ elevation: 3, borderRadius: 4, paddingHorizontal: 2 }}
+              disabled={loading}
+              containerStyle={{
+                elevation: 3,
+                backgroundColor: "white",
+                width: 0.845 * width,
+                alignSelf: "center",
+                borderRadius: 14,
+              }}
+              style={{ borderRadius: 4, paddingHorizontal: 2 }}
             >
               <View
                 width={0.092 * width}
@@ -178,7 +193,7 @@ const Login = () => {
             </View>
             <BorderlessButton
               width="100%"
-              height={0.102 * width}
+              height={0.105 * width}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
@@ -187,7 +202,9 @@ const Login = () => {
               alignItems="center"
               overflow="hidden"
               marginTop="s"
-              onPress={verify}
+              onPress={withPhoneNumber}
+              loading={loading}
+              disabled={loading}
               style={{ elevation: 2, borderRadius: 4, paddingHorizontal: 2 }}
             >
               <Text variant="authButton" style={{ alignSelf: "center" }}>
@@ -228,7 +245,7 @@ const Login = () => {
             </View>
             <BorderlessButton
               width="100%"
-              height={0.102 * width}
+              height={0.105 * width}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
@@ -237,9 +254,9 @@ const Login = () => {
               alignItems="center"
               overflow="hidden"
               marginTop="s"
-              onPress={() => {
-                translateX.value = -3 * width;
-              }}
+              loading={loading}
+              disabled={loading}
+              onPress={verify}
               style={{ elevation: 2, borderRadius: 4, paddingHorizontal: 2 }}
             >
               <Text variant="authButton" style={{ alignSelf: "center" }}>
@@ -280,7 +297,7 @@ const Login = () => {
             </View>
             <BorderlessButton
               width="100%"
-              height={0.102 * width}
+              height={0.105 * width}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
@@ -289,7 +306,9 @@ const Login = () => {
               alignItems="center"
               overflow="hidden"
               marginTop="s"
-              onPress={verify}
+              onPress={_setDisplayName}
+              loading={loading}
+              disabled={loading}
               style={{ elevation: 2, borderRadius: 4, paddingHorizontal: 2 }}
             >
               <Text variant="authButton" style={{ alignSelf: "center" }}>

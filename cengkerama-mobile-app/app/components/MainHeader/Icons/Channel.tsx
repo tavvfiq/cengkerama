@@ -1,9 +1,9 @@
-import * as React from 'react';
-import Svg, {Mask, Path, Rect} from 'react-native-svg';
+import * as React from "react";
+import Svg, { Mask, Path, Rect } from "react-native-svg";
 
 function Channel() {
   return (
-    <Svg width={22} height={23} viewBox="0 0 22 23" fill="none">
+    <Svg width={20} height={20} viewBox="0 0 22 23" fill="none">
       <Mask id="prefix__a" fill="#fff">
         <Path
           fillRule="evenodd"

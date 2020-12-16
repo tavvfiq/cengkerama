@@ -1,9 +1,9 @@
-import * as React from 'react';
-import Svg, {Mask, Path, Rect} from 'react-native-svg';
+import * as React from "react";
+import Svg, { Mask, Path, Rect } from "react-native-svg";
 
 function Group() {
   return (
-    <Svg width={32} height={23} viewBox="0 0 32 23" fill="none">
+    <Svg width={23} height={23} viewBox="0 0 32 23" fill="none">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"

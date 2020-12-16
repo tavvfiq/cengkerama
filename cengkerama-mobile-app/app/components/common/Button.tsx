@@ -10,6 +10,7 @@ import {
   BackgroundColorProps,
 } from "@shopify/restyle";
 import {
+  ActivityIndicator,
   Pressable,
   TouchableHighlight,
   TouchableOpacity as _TouchableOpacity,
@@ -30,6 +31,8 @@ type Props = LayoutProps<Theme> &
     children: React.ReactNode;
     style?: ViewStyle;
     disabled?: boolean;
+    loading?: boolean;
+    containerStyle?: ViewStyle;
   };
 
 export const Button = ({ onPress, children, ...rest }: Props) => {
@@ -51,6 +54,9 @@ export const BorderlessButton = ({
   onPress,
   onLongPress,
   children,
+  disabled,
+  loading,
+  containerStyle,
   ...rest
 }: Props) => {
   const props = useRestyle(restyleFunctions, rest);
@@ -58,9 +64,23 @@ export const BorderlessButton = ({
     <Pressable
       onPress={onPress}
       onLongPress={onLongPress}
-      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+      disabled={disabled}
+      style={({ pressed }) => ({
+        ...containerStyle,
+        opacity: pressed ? 0.8 : 1,
+      })}
     >
-      <View {...props}>{children}</View>
+      <View {...props}>
+        {loading ? (
+          <ActivityIndicator
+            color="white"
+            size="small"
+            style={{ alignSelf: "center" }}
+          />
+        ) : (
+          children
+        )}
+      </View>
     </Pressable>
   );
 };

@@ -3,7 +3,7 @@ import { FlatList, ListRenderItem, StyleSheet } from "react-native";
 import dayjs from "dayjs";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-// import ImageResizer from "react-native-image-resizer";
+import { useRecoilValue } from "recoil";
 
 import { Bubble, Header, MyBubble, Input } from "../../components/Chat";
 import { AppStackParams, MessageProps, RoomProps } from "../../interface";
@@ -11,6 +11,7 @@ import Layout from "../../layout";
 import { Text, View } from "../../components/common";
 import { colors } from "../../constant";
 import useMessage from "../../hooks/useMessage";
+import { auth } from "../../store/authentication";
 
 // const { width } = Dimensions.get("window");
 
@@ -35,10 +36,14 @@ type Props = {
 const myId = "123456";
 
 const Room = ({ navigation, route }: Props) => {
+  const authState = useRecoilValue(auth);
   const { id: roomId }: RoomProps = JSON.parse(route.params.payload);
 
   // useMessage hooks
-  const [messages, sendMessage] = useMessage(roomId, myId);
+  const [messages, sendMessage] = useMessage(
+    roomId,
+    authState.user?.id as string,
+  );
 
   const date = useRef<string>("");
 
@@ -71,7 +76,7 @@ const Room = ({ navigation, route }: Props) => {
             {dayjs(item.sentAt).format("ddd, D MMMM YYYY")}
           </Text>
         )}
-        {item.sentBy === myId ? (
+        {item.sentBy === (authState.user?.id as string) ? (
           <MyBubble key={item.id} {...item} />
         ) : (
           <Bubble key={item.id} {...item} />

@@ -3,7 +3,7 @@ import Svg, {Rect, Path, Circle} from 'react-native-svg';
 
 function Private() {
   return (
-    <Svg width={15} height={22} viewBox="0 0 15 22" fill="none">
+    <Svg width={20} height={20} viewBox="0 0 15 22" fill="none">
       <Rect
         x={1.128}
         y={8.333}

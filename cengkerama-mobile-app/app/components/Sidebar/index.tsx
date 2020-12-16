@@ -1,7 +1,9 @@
 import React from "react";
 import { Dimensions, Image } from "react-native";
 import { useAnimatedStyle, withTiming } from "react-native-reanimated";
+import { useRecoilValue } from "recoil";
 
+import { auth } from "../../store/authentication";
 import { Text, TouchableOpacity, View } from "../common";
 import AnimatedView from "../common/AnimatedView";
 
@@ -52,6 +54,7 @@ const SidebarMenu = [
 ];
 
 const Sidebar = ({ isActive, backOnPress }: Props) => {
+  const authState = useRecoilValue(auth);
   const style = useAnimatedStyle(() => {
     return {
       width: withTiming(isActive ? SIDEBAR_WIDTH : INITIAL_WIDTH),
@@ -116,7 +119,11 @@ const Sidebar = ({ isActive, backOnPress }: Props) => {
             borderRadius: (width * 0.14) / 4,
             alignSelf: "center",
           }}
-          source={require("../../assets/example.jpg")}
+          source={
+            authState.user?.profilePicture !== ""
+              ? { uri: authState.user?.profilePicture }
+              : require("../../assets/default.png")
+          }
         />
         <Text
           variant="headerProfile"
@@ -124,7 +131,7 @@ const Sidebar = ({ isActive, backOnPress }: Props) => {
           paddingLeft="s"
           style={{ maxWidth: 0.46 * width }}
         >
-          Taufiq Widi Nugroho
+          {authState.user?.displayName}
         </Text>
       </View>
       {SidebarMenu.map((item, index) => {

@@ -12,7 +12,8 @@
     "env:dev": "node scripts/set-environment.js development",
     "env:staging": "node scripts/set-environment.js staging",
     "env:prod": "node scripts/set-environment.js production",
-    "clean": "cd android/ && ./gradlew clean && cd .."
+    "clean": "cd android/ && ./gradlew clean && cd ..",
+    "generate-debug-key": "keytool -list -v -keystore ./android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",

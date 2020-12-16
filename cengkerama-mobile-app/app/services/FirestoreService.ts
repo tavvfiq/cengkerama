@@ -6,6 +6,8 @@ export const MessageCollection = (roomId: string) =>
 
 export const RoomCollection = firestore().collection("room");
 
+export const UserCollection = firestore().collection("user");
+
 export type UploadConfig = {
   storagePath: string; // in firebase storage
   filePath: string; // file uri
