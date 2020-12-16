@@ -90,7 +90,9 @@ const useMessage = (
       );
     // Unsubscribe from events when no longer in use
     return () => {
-      writeToStorage();
+      (async () => {
+        writeToStorage();
+      })();
       subscriber();
     };
   }, [roomId, userId]);
