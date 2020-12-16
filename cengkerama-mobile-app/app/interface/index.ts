@@ -25,6 +25,16 @@ export type MessageProps = {
   type?: string;
 };
 
+export type User = {
+  id?: string;
+  displayName?: string;
+  email?: string;
+  phoneNumber?: string;
+  profilePicture?: string;
+  contacts?: Array<string>;
+  rooms?: Array<string>;
+};
+
 export type UserProps = {
   id: string;
   name: string;
@@ -38,6 +48,11 @@ export type AppStackParams = {
   Main: undefined;
   Room: { payload: string };
   ImageView: { id: string; data?: string };
+};
+
+export type AuthStackParams = {
+  Login: undefined;
+  Register: undefined;
 };
 
 export type ImageType = {
