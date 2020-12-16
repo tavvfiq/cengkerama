@@ -25,7 +25,7 @@ const MainHeader = ({ moreOnPress, addOnPress, searchOnPress }: Props) => {
       paddingVertical="m"
     >
       <Text variant="header" paddingLeft="l">
-        Cengkerama
+        cengkerama
       </Text>
       <Bar isOpened={addOpened} />
       <View
