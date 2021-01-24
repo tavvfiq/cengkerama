@@ -15,6 +15,8 @@ import Layout from "../../layout";
 
 const { width } = Dimensions.get("window");
 
+const buttonHeight = 0.11 * width;
+
 const initialInputValue = {
   phoneNumber: "",
   otp: "",
@@ -44,7 +46,7 @@ const Login = () => {
   useEffect(() => {
     if (!isError && !loading) {
       index.current++;
-      if (index.current > 1) {
+      if (index.current > 1 && index.current < 4) {
         translateX.value = -index.current * width;
       }
     }
@@ -109,10 +111,13 @@ const Login = () => {
             </View>
             <BorderlessButton
               onPress={() => {
+                if (index.current === 0) {
+                  index.current++;
+                }
                 translateX.value = -index.current * width;
               }}
               width={0.845 * width}
-              height={0.105 * width}
+              height={buttonHeight}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
@@ -193,7 +198,7 @@ const Login = () => {
             </View>
             <BorderlessButton
               width="100%"
-              height={0.105 * width}
+              height={buttonHeight}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
@@ -209,6 +214,29 @@ const Login = () => {
             >
               <Text variant="authButton" style={{ alignSelf: "center" }}>
                 Sure
+              </Text>
+            </BorderlessButton>
+            <BorderlessButton
+              width="100%"
+              height={buttonHeight}
+              borderRadius="s"
+              backgroundColor="bluePrimary"
+              alignSelf="center"
+              flexDirection="row"
+              justifyContent="center"
+              alignItems="center"
+              overflow="hidden"
+              marginTop="s"
+              onPress={() => {
+                index.current--;
+                translateX.value = -index.current * width;
+              }}
+              loading={loading}
+              disabled={loading}
+              style={{ elevation: 2, borderRadius: 4, paddingHorizontal: 2 }}
+            >
+              <Text variant="authButton" style={{ alignSelf: "center" }}>
+                Change Sign In method
               </Text>
             </BorderlessButton>
           </View>
@@ -245,7 +273,7 @@ const Login = () => {
             </View>
             <BorderlessButton
               width="100%"
-              height={0.105 * width}
+              height={buttonHeight}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"
@@ -297,7 +325,7 @@ const Login = () => {
             </View>
             <BorderlessButton
               width="100%"
-              height={0.105 * width}
+              height={buttonHeight}
               borderRadius="s"
               backgroundColor="bluePrimary"
               alignSelf="center"

@@ -40,7 +40,7 @@ class Storage {
     try {
       await AsyncStorage.clear();
     } catch (e) {
-      error("AsyncStorage_ALL", e);
+      error("AsyncStorage_CLRALL", e);
       throw e;
     }
   };
